@@ -14,11 +14,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+static Status game_reader_load_spaces(Game *game, char *filename);
 /**
    Implementation of private functions
 */
 
-Status game_reader_load_spaces(Game *game, char *filename) {
+static Status game_reader_load_spaces(Game *game, char *filename) {
   FILE *file = NULL;
   char line[WORD_SIZE] = "";
   char name[WORD_SIZE] = "";
@@ -99,4 +101,20 @@ Status game_reader_load_spaces(Game *game, char *filename) {
   fclose(file);
 
   return status;
+}
+
+Status game_reader_create_from_file(Game *game, char *filename) {
+  if (game_create(game) == ERROR) {
+    return ERROR;
+  }
+
+  if (game_reader_load_spaces(game, filename) == ERROR) {
+    return ERROR;
+  }
+
+  /* The player and the object are located in the first space */
+  game_set_player_location(game, game_get_space_id_at(game, 0));
+  game_set_object_location(game, game_get_space_id_at(game, 0));
+
+  return OK;
 }

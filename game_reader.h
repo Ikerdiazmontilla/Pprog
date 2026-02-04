@@ -3,6 +3,6 @@
 
 #include "game.h"
 
-Status game_reader_load_spaces(Game *game, char *filename);
+Status game_reader_create_from_file(Game *game, char *filename);
 
 #endif
