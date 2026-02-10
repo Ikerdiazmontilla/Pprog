@@ -1,55 +1,60 @@
-# Estilo de Codigo y Documentacion (I1 - PPROG)
+# Code And Documentation Style (I1 - PPROG)
 
-Este repositorio debe cumplir, por encima de todo, con los requisitos **D1** y **D2** de `RequisitosI1.pdf`:
+This repository must comply, above all, with **D1** and **D2** from `RequisitosI1.pdf`:
 
-- Todo el codigo (semilla y nuevo) debe estar documentado.
-- El estilo debe ser **homogeneo**, **simple**, **facil de leer** y **facil de mantener**.
-- El codigo debe compilar con `-Wall` sin warnings (requisito **C1**).
+- All code (seed code and new code) must be documented.
+- The style must be **consistent**, **simple**, and **easy to read**.
+- The code must compile with `-Wall` with **no warnings** (**C1**).
 
-`space.c` y `space.h` se toman como **referencia canonica** del formato general (cabeceras, Doxygen, prefijos).
+`space.c` and `space.h` are the **canonical reference** for header layout, Doxygen blocks, and naming.
 
-## C (formato)
+## Language (mandatory)
 
-- Indentacion: **2 espacios**, nunca tabs. No mezclar.
-- Llaves: **K&R**.
+- **All documentation and code comments must be written in English.**
+  - File headers, function docs, struct/field docs, inline comments, and user-facing debug strings (when reasonable).
+
+## C (formatting)
+
+- Indentation: **2 spaces**, never tabs. Do not mix.
+- Braces: **K&R**.
   - `if (cond) { ... }`
   - `switch (x) { case ...: ...; break; }`
-- Longitud de linea: objetivo **100** columnas (romper lineas largas con sentido).
-- Espacios:
+- Line length: target **100** columns (wrap long lines intentionally).
+- Spacing:
   - `if (x)`, `for (...)`, `while (...)`
-  - Operadores binarios con espacios: `a + b`, `x == y`
-  - Punteros como en el codigo semilla: `Type* ptr` (no introducir mezclas dentro de un mismo fichero).
-- Orden de `#include` en `.c`:
-  1. Cabecera del modulo (`#include "modulo.h"`)
+  - Binary operators with spaces: `a + b`, `x == y`
+  - Pointers like the seed code: `Type* ptr` (do not mix styles inside the same file).
+- `#include` order in `.c`:
+  1. Module header (`#include "module.h"`)
   2. System headers (`<stdio.h>`, `<stdlib.h>`, ...)
-  3. Otras cabeceras del proyecto
-- Privado vs publico:
-  - Funciones privadas: `static` en el `.c` y documentadas (D1).
-  - No exponer `struct _X` en `.h` (usar `typedef struct _X X;` como en semilla).
-- Manejo de errores:
-  - Preferir checks simples y retornos tempranos:
+  3. Project headers
+- Public vs private:
+  - Private functions: `static` in the `.c` and documented (D1).
+  - Do not expose `struct _X` in `.h` (use `typedef struct _X X;`).
+- Error handling:
+  - Prefer simple checks and early returns:
     - `if (!ptr) return ERROR;`
-  - `create` devuelve puntero o `NULL`.
-  - `destroy` devuelve `OK/ERROR`.
-  - `getters` devuelven `NO_ID`/`NULL` si hay error.
-- Nombres:
-  - Funciones: `modulo_verbo_objeto` (ej.: `player_set_location`).
-  - Variables: `snake_case` (ej.: `current_id`, `object_id`).
-  - Constantes/macros: `MAYUSCULAS_CON_GUIONES_BAJOS` (ej.: `MAX_SPACES`).
+  - `create` returns pointer or `NULL`.
+  - `destroy` returns `OK/ERROR`.
+  - Getters return `NO_ID`/`NULL` on error.
+- Names:
+  - Functions: `module_verb_object` (e.g., `player_set_location`).
+  - Variables: `snake_case` (e.g., `current_id`, `object_id`).
+  - Constants/macros: `UPPER_SNAKE_CASE` (e.g., `MAX_SPACES`).
 
-## Documentacion (Doxygen / D1)
+## Documentation (Doxygen / D1)
 
-Regla general: **si alguien que no has sido tu abre el fichero, debe entender rapidamente que hace el modulo y cada funcion**.
+Rule of thumb: if someone who is not you opens a file, they should understand quickly what the module does and what each function does.
 
-### Cabecera de fichero (obligatoria en `.c` y `.h`)
+### File header (required in `.c` and `.h`)
 
-Usar el mismo formato que `space.c` / `space.h`:
+Use the same format as `space.c` / `space.h`:
 
 ```c
 /**
  * @brief ...
  *
- * @file nombre_fichero.c
+ * @file filename.c
  * @author ...
  * @version 0
  * @date DD-MM-YYYY
@@ -57,22 +62,21 @@ Usar el mismo formato que `space.c` / `space.h`:
  */
 ```
 
-### Prototipos y funciones (publicas y privadas)
+### Prototypes and functions (public and private)
 
-- Todas las funciones deben tener bloque Doxygen con:
+- Every function must have a Doxygen block with:
   - `@brief`
-  - `@author` (autor **unico** por funcion, como pide D1)
-  - `@param` para cada parametro (si aplica)
+  - `@author` (a **single** author per function, as required by D1)
+  - `@param` for each parameter (if any)
   - `@return`
-- Si la funcion es simple y obvia, el `@brief` puede ser una frase corta.
-- Si hay precondiciones, documentarlas en el `@brief` o con `@note`.
+- Keep `@brief` short but precise. Add `@note` only when it improves clarity.
 
-Ejemplo (como `space.h`):
+Example (as in `space.h`):
 
 ```c
 /**
  * @brief It sets the location of the player
- * @author Nombre Apellido
+ * @author Name Surname
  *
  * @param player a pointer to the player
  * @param location_id the id of the space where the player is
@@ -81,13 +85,13 @@ Ejemplo (como `space.h`):
 Status player_set_location(Player* player, Id location_id);
 ```
 
-### Estructuras, enums, globales
+### Structs, enums, globals
 
-- `struct` privada en `.c`: documentar el `struct` y cada campo.
-- Enums publicos (si se introducen): documentar el enum y cada valor.
-- Variables globales: evitar; si existen, documentarlas y justificar su necesidad.
+- Private `struct` in `.c`: document the `struct` and each field.
+- Public enums (if added): document the enum and each value.
+- Global variables: avoid; if needed, document and justify.
 
-Ejemplo de campos:
+Field example:
 
 ```c
 struct _Player {
@@ -98,19 +102,19 @@ struct _Player {
 };
 ```
 
-## Colaboracion (2 personas)
+## Collaboration (2 people)
 
-- No reformatear masivamente el codigo semilla si no es necesario. Prioridad: cumplir D1/D2/C1.
-- Al modificar una funcion existente:
-  - Mantener el estilo del fichero.
-  - Actualizar el bloque Doxygen de esa funcion para que tenga `@author` unico y describa el comportamiento real.
-- Si dos personas trabajan en la misma funcion, decidir un responsable y usar un solo nombre en `@author` (D1). El resto puede quedar en un `@note` corto si hace falta.
+- Do not reformat the entire seed code unless necessary. Priority: D1/D2/C1 compliance.
+- When modifying an existing function:
+  - Keep the file's established style.
+  - Update that function's Doxygen block so it matches the real behavior and has a single `@author`.
+- If two people worked on the same function, pick one responsible author for `@author`. If needed, add a short `@note`.
 
-## Checklist rapido antes de entregar/cambiar codigo
+## Quick checklist before pushing
 
-- `make clean && make` compila con `-Wall` sin warnings.
-- El `Makefile` incluye cualquier `.c` nuevo (C3).
-- `.c` y `.h` tienen cabecera completa.
-- Prototipos (publicos y privados) documentados.
-- Ningun comentario/copypaste apunta a `@file` incorrecto o nombres incorrectos.
+- `make clean && make` builds with `-Wall` and no warnings.
+- `Makefile` includes any new `.c` files (C3).
+- `.c` and `.h` files have complete file headers.
+- Public and private function docs are present and correct.
+- No copy/paste mistakes in `@file`, function names, or parameter names.
 

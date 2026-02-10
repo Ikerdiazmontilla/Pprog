@@ -85,7 +85,7 @@ static Status game_reader_load_spaces(Game *game, char *filename) {
       }
       west = atol(toks);
 #ifdef DEBUG
-      printf("Leido: s:%ld|%s|%ld|%ld|%ld|%ld\n", id, name, north, east, south, west);
+      printf("Read: s:%ld|%s|%ld|%ld|%ld|%ld\n", id, name, north, east, south, west);
 #endif
       space = space_create(id);
       if (space != NULL) {
