@@ -27,8 +27,12 @@ struct _Object {
   char name[WORD_SIZE + 1]; /*!< Name of the object */
 };
 
-/** player_create allocates memory for a new object
- *  and initializes its members
+/**
+ * @brief It creates a new object
+ * @author Fernando Pina
+ *
+ * @param id the identification number for the object
+ * @return a new object initialized, or NULL on error
  */
 Object* object_create(Id id) {
   Object* newObject = NULL;
@@ -41,19 +45,20 @@ Object* object_create(Id id) {
     return NULL;
   }
 
-  /* Initialization of an empty space*/
+  /* Initialization of an empty object */
   newObject->id = id;
   newObject->name[0] = '\0';
-  
+
   return newObject;
 }
+
 /*free the memory of the object*/
 Status object_destroy(Object* object) {
   if (!object) {
     return ERROR;
   }
 
-  free(object); 
+  free(object);
   return OK;
 }
 
@@ -71,9 +76,8 @@ Status object_set_name(Object* object, char* name) {
     return ERROR;
   }
 
-  if (!strcpy(object->name, name)) {
-    return ERROR;
-  }
+  strncpy(object->name, name, WORD_SIZE);
+  object->name[WORD_SIZE] = '\0';
   return OK;
 }
 

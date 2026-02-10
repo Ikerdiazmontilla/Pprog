@@ -25,8 +25,8 @@
 struct _Player {
   Id id;                    /*!< Id number of the player, it must be unique */
   char name[WORD_SIZE + 1]; /*!< Name of the player */
-  Id object;              /*!< Whether the player has an object or not */
-  Id location;              /*Id number o the location of the player*/
+  Id object;                /*!< Carried object id (or NO_ID) */
+  Id location;              /*!< Current space id */
 };
 
 /** player_create allocates memory for a new player
@@ -75,9 +75,8 @@ Status player_set_name(Player* player, char* name) {
     return ERROR;
   }
 
-  if (!strcpy(player->name, name)) {
-    return ERROR;
-  }
+  strncpy(player->name, name, WORD_SIZE);
+  player->name[WORD_SIZE] = '\0';
   return OK;
 }
 
@@ -134,7 +133,7 @@ Status player_print(Player* player) {
   }
 
   /* 1. Print the id and the name of the player */
-  fprintf(stdout, "--> Space (Id: %ld; Name: %s)\n", player->id, player->name);
+  fprintf(stdout, "--> Player (Id: %ld; Name: %s)\n", player->id, player->name);
 
   
   /* 3. Print the object id if it exists else print a message if not */

@@ -1,7 +1,7 @@
 /**
  * @brief It implements the game update through user actions
  *
- * @file game.c
+ * @file game_actions.c
  * @author Profesores PPROG
  * @version 0
  * @date 27-01-2025
@@ -10,21 +10,59 @@
 
 #include "game_actions.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <stddef.h>
 
 /**
    Private functions
 */
 
-void game_actions_unknown(Game *game);
+/**
+ * @brief It handles an unknown command
+ * @author Equipo PPROG
+ *
+ * @param game a pointer to the game
+ */
+static void game_actions_unknown(Game* game);
 
-void game_actions_exit(Game *game);
+/**
+ * @brief It handles the exit command
+ * @author Equipo PPROG
+ *
+ * @param game a pointer to the game
+ */
+static void game_actions_exit(Game* game);
 
-void game_actions_next(Game *game);
+/**
+ * @brief It handles the next command (move south)
+ * @author Equipo PPROG
+ *
+ * @param game a pointer to the game
+ */
+static void game_actions_next(Game* game);
 
-void game_actions_back(Game *game);
+/**
+ * @brief It handles the back command (move north)
+ * @author Equipo PPROG
+ *
+ * @param game a pointer to the game
+ */
+static void game_actions_back(Game* game);
+
+/**
+ * @brief It handles the take command
+ * @author Equipo PPROG
+ *
+ * @param game a pointer to the game
+ */
+static void game_actions_take(Game* game);
+
+/**
+ * @brief It handles the drop command
+ * @author Equipo PPROG
+ *
+ * @param game a pointer to the game
+ */
+static void game_actions_drop(Game* game);
 
 /**
    Game actions implementation
@@ -54,6 +92,14 @@ Status game_actions_update(Game *game, Command *command) {
       game_actions_back(game);
       break;
 
+    case TAKE:
+      game_actions_take(game);
+      break;
+
+    case DROP:
+      game_actions_drop(game);
+      break;
+
     default:
       break;
   }
@@ -65,11 +111,19 @@ Status game_actions_update(Game *game, Command *command) {
    Calls implementation for each action
 */
 
-void game_actions_unknown(Game *game) {}
+static void game_actions_unknown(Game* game) {
+  (void)game;
+}
 
-void game_actions_exit(Game *game) {}
+static void game_actions_exit(Game* game) {
+  if (!game) {
+    return;
+  }
 
-void game_actions_next(Game *game) {
+  game_set_finished(game, TRUE);
+}
+
+static void game_actions_next(Game* game) {
   Id current_id = NO_ID;
   Id space_id = NO_ID;
 
@@ -86,7 +140,7 @@ void game_actions_next(Game *game) {
   return;
 }
 
-void game_actions_back(Game *game) {
+static void game_actions_back(Game* game) {
   Id current_id = NO_ID;
   Id space_id = NO_ID;
 
@@ -102,4 +156,78 @@ void game_actions_back(Game *game) {
   }
 
   return;
+}
+
+static void game_actions_take(Game* game) {
+  Player* player = NULL;
+  Space* space = NULL;
+  Id space_id = NO_ID;
+  Id space_object = NO_ID;
+  Id object_id = NO_ID;
+
+  if (!game) {
+    return;
+  }
+
+  player = game_get_player(game);
+  if (!player) {
+    return;
+  }
+
+  if (player_get_object(player) != NO_ID) {
+    return;
+  }
+
+  object_id = object_get_id(game_get_object(game));
+  if (object_id == NO_ID) {
+    return;
+  }
+
+  space_id = game_get_player_location(game);
+  space = game_get_space(game, space_id);
+  if (!space) {
+    return;
+  }
+
+  space_object = space_get_object(space);
+  if (space_object != object_id) {
+    return;
+  }
+
+  player_set_object(player, object_id);
+  space_set_object(space, NO_ID);
+}
+
+static void game_actions_drop(Game* game) {
+  Player* player = NULL;
+  Space* space = NULL;
+  Id space_id = NO_ID;
+  Id player_object = NO_ID;
+
+  if (!game) {
+    return;
+  }
+
+  player = game_get_player(game);
+  if (!player) {
+    return;
+  }
+
+  player_object = player_get_object(player);
+  if (player_object == NO_ID) {
+    return;
+  }
+
+  space_id = game_get_player_location(game);
+  space = game_get_space(game, space_id);
+  if (!space) {
+    return;
+  }
+
+  if (space_get_object(space) != NO_ID) {
+    return;
+  }
+
+  space_set_object(space, player_object);
+  player_set_object(player, NO_ID);
 }

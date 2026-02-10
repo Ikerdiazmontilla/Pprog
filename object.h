@@ -28,7 +28,7 @@ Object* object_create(Id id);
  * @brief It destroys a object, freeing the allocated memory
  * @author Fernando Pina
  *
- * @param player a pointer to the object that must be destroyed
+ * @param object a pointer to the object that must be destroyed
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
 Status object_destroy(Object* object);
@@ -54,7 +54,7 @@ Status object_set_name(Object* object, char* name);
 
 /**
  * @brief It gets the name of a object
- * @author Fernado Pina
+ * @author Fernando Pina
  *
  * @param object a pointer to the object
  * @return  a string with the name of the object

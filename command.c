@@ -15,9 +15,19 @@
 #include <string.h>
 #include <strings.h>
 
-#define CMD_LENGHT 30
+#define CMD_LENGTH 30
 
-char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"n", "Next"}, {"b", "Back"}};
+/**
+ * @brief Command token table (short and long)
+ * @author Profesores PPROG
+ */
+char* cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"},
+                                  {"", "Unknown"},
+                                  {"e", "Exit"},
+                                  {"n", "Next"},
+                                  {"b", "Back"},
+                                  {"t", "Take"},
+                                  {"d", "Drop"}};
 
 /**
  * @brief Command
@@ -28,13 +38,16 @@ struct _Command {
   CommandCode code; /*!< Name of the command */
 };
 
-/** space_create allocates memory for a new space
- *  and initializes its members
+/**
+ * @brief It creates a new command
+ * @author Profesores PPROG
+ *
+ * @return a new command initialized, or NULL on error
  */
 Command* command_create() {
   Command* newCommand = NULL;
 
-  newCommand = (Command*)calloc(1,sizeof(Command));
+  newCommand = (Command*)calloc(1, sizeof(Command));
   if (newCommand == NULL) {
     return NULL;
   }
@@ -60,7 +73,7 @@ Status command_set_code(Command* command, CommandCode code) {
     return ERROR;
   }
 
-  command->code=code;
+  command->code = code;
 
   return OK;
 }
@@ -73,7 +86,7 @@ CommandCode command_get_code(Command* command) {
 }
 
 Status command_get_user_input(Command* command) {
-  char input[CMD_LENGHT] = "", *token = NULL;
+  char input[CMD_LENGTH] = "", *token = NULL;
   int i = UNKNOWN - NO_CMD + 1;
   CommandCode cmd;
 
@@ -81,7 +94,7 @@ Status command_get_user_input(Command* command) {
     return ERROR;
   }
 
-  if (fgets(input, CMD_LENGHT, stdin)) {
+  if (fgets(input, CMD_LENGTH, stdin)) {
     token = strtok(input, " \n");
     if (!token) {
       return command_set_code(command, UNKNOWN);
@@ -96,8 +109,7 @@ Status command_get_user_input(Command* command) {
       }
     }
     return command_set_code(command, cmd);
-  }
-  else
+  } else {
     return command_set_code(command, EXIT);
-  
+  }
 }

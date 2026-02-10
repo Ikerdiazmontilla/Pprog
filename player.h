@@ -54,7 +54,7 @@ Status player_set_name(Player* player, char* name);
 
 /**
  * @brief It gets the name of a player
- * @author Fernado Pina
+ * @author Fernando Pina
  *
  * @param player a pointer to the player
  * @return  a string with the name of the player
@@ -62,21 +62,22 @@ Status player_set_name(Player* player, char* name);
 const char* player_get_name(Player* player);
 
 /**
- * @brief It sets whether the player has an object or not
+ * @brief It sets the id of the object carried by the player
  * @author Fernando Pina
  *
  * @param player a pointer to the player
- * @param value a boolean, specifying if in the player there is an object (TRUE) or not (FALSE)
+ * @param object_id the id of the carried object (or NO_ID if none)
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
 Status player_set_object(Player* player, Id object_id);
 
 /**
- * @brief It gets whether the player has an object or not
+ * @brief It gets the id of the object carried by the player
  * @author Fernando Pina
  *
  * @param player a pointer to the player
- * @return the id of the object*/
+ * @return the id of the object (or NO_ID if none)
+ */
 Id player_get_object(Player* player);
 
 /**
@@ -84,7 +85,7 @@ Id player_get_object(Player* player);
  * @author Fernando Pina
  *
  * @param player a pointer to the player
- * @param location a id of the 
+ * @param location_id the id of the space where the player is
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
 

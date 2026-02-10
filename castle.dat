@@ -1,4 +1,18 @@
-#s:11|Entry|-1|-1|12|-1
-#s:12|Corridor|11|-1|13|-1
-#s:13|Garden|12|-1|-1|-1
+# Main path (6 spaces): Entrada -> Pasillo -> Comedor -> Cocina -> Patio interior -> Jardin
+# Branch from the 3rd space (3 spaces): Habitacion -> Bano -> Biblioteca
+# Branch from the 2nd space (dead end): Mazmorra
+# Format: #s:<id>|<name>|<north>|<east>|<south>|<west>
+#s:11|Entrada|-1|-1|12|-1
+#s:12|Pasillo|11|-1|13|121
+#s:13|Comedor|12|131|14|-1
+#s:14|Cocina|13|-1|15|-1
+#s:15|Patio interior|14|-1|16|-1
+#s:16|Jardin|15|-1|-1|-1
 
+# Branch from space 13 (east direction)
+#s:131|Habitacion|-1|132|-1|13
+#s:132|Bano|-1|133|-1|131
+#s:133|Biblioteca|-1|-1|-1|132
+
+# Dungeon from space 12 (west direction)
+#s:121|Mazmorra|-1|12|-1|-1

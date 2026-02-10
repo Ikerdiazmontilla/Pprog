@@ -17,8 +17,24 @@
 #include "game_actions.h"
 #include "graphic_engine.h"
 
+/**
+ * @brief It initializes the game and graphic engine
+ * @author Profesores PPROG
+ *
+ * @param game a pointer to the game
+ * @param gengine a pointer to the graphic engine pointer
+ * @param file_name path to the game data file
+ * @return 0 if OK, 1 if game initialization fails, 2 if graphic engine initialization fails
+ */
 int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name);
 
+/**
+ * @brief It frees all allocated resources
+ * @author Profesores PPROG
+ *
+ * @param game the game instance
+ * @param gengine a pointer to the graphic engine
+ */
 void game_loop_cleanup(Game game, Graphic_engine *gengine);
 
 int main(int argc, char *argv[]) {
@@ -62,7 +78,7 @@ int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name) {
 
   if ((*gengine = graphic_engine_create()) == NULL) {
     game_destroy(game);
-    return 1;
+    return 2;
   }
 
   return 0;

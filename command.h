@@ -13,19 +13,77 @@
 
 #include "types.h"
 
+/**
+ * @brief Number of command tokens (short and long)
+ * @author Profesores PPROG
+ */
 #define N_CMDT 2
-#define N_CMD 5
+
+/**
+ * @brief Number of supported commands (including NO_CMD and UNKNOWN)
+ * @author Profesores PPROG
+ */
+#define N_CMD 7
 
 typedef enum { CMDS, CMDL } CommandType;
 
-typedef enum { NO_CMD = -1, UNKNOWN, EXIT, NEXT, BACK } CommandCode;
+/**
+ * @brief Supported command codes
+ * @author Profesores PPROG
+ */
+typedef enum { NO_CMD = -1, UNKNOWN, EXIT, NEXT, BACK, TAKE, DROP } CommandCode;
 
 typedef struct _Command Command;
 
+/**
+ * @brief Command token table (short and long)
+ * @author Profesores PPROG
+ */
+extern char* cmd_to_str[N_CMD][N_CMDT];
+
+/**
+ * @brief It creates a new command
+ * @author Profesores PPROG
+ *
+ * @return a new command initialized, or NULL on error
+ */
 Command* command_create();
+
+/**
+ * @brief It destroys a command, freeing the allocated memory
+ * @author Profesores PPROG
+ *
+ * @param command a pointer to the command that must be destroyed
+ * @return OK if everything goes well, ERROR otherwise
+ */
 Status command_destroy(Command* command);
+
+/**
+ * @brief It sets the code of a command
+ * @author Profesores PPROG
+ *
+ * @param command a pointer to the command
+ * @param code command code to set
+ * @return OK if everything goes well, ERROR otherwise
+ */
 Status command_set_code(Command* command, CommandCode code);
+
+/**
+ * @brief It gets the code of a command
+ * @author Profesores PPROG
+ *
+ * @param command a pointer to the command
+ * @return the command code (or NO_CMD on error)
+ */
 CommandCode command_get_code(Command* command);
+
+/**
+ * @brief It reads user input and updates the command code
+ * @author Profesores PPROG
+ *
+ * @param command a pointer to the command
+ * @return OK if everything goes well, ERROR otherwise
+ */
 Status command_get_user_input(Command* command);
 
 #endif

@@ -15,6 +15,14 @@
 #include <string.h>
 
 
+/**
+ * @brief It loads spaces from a data file
+ * @author Profesores PPROG
+ *
+ * @param game a pointer to the game
+ * @param filename path to the data file
+ * @return OK if everything goes well, ERROR otherwise
+ */
 static Status game_reader_load_spaces(Game *game, char *filename);
 /**
    Implementation of private functions
@@ -82,10 +90,10 @@ static Status game_reader_load_spaces(Game *game, char *filename) {
       space = space_create(id);
       if (space != NULL) {
         space_set_name(space, name);
-        space_set_north(space, north);
-        space_set_east(space, east);
-        space_set_south(space, south);
-        space_set_west(space, west);
+        if (north != NO_ID) space_set_north(space, north);
+        if (east != NO_ID) space_set_east(space, east);
+        if (south != NO_ID) space_set_south(space, south);
+        if (west != NO_ID) space_set_west(space, west);
         game_add_space(game, space);
       } else {
         status = ERROR;
@@ -109,6 +117,7 @@ Status game_reader_create_from_file(Game *game, char *filename) {
   }
 
   if (game_reader_load_spaces(game, filename) == ERROR) {
+    game_destroy(game);
     return ERROR;
   }
 

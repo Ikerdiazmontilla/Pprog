@@ -71,7 +71,6 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   char obj = '\0';
   char str[255];
   CommandCode last_cmd = UNKNOWN;
-  extern char *cmd_to_str[N_CMD][N_CMDT];
 
   /* Paint the in the map area */
   screen_area_clear(ge->map);
@@ -131,6 +130,23 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
 
   /* Paint in the description area */
   screen_area_clear(ge->descript);
+  if ((id_act = game_get_player_location(game)) != NO_ID) {
+    space_act = game_get_space(game, id_act);
+    if (space_act) {
+      sprintf(str, "  Location: %d (%s)", (int)id_act, space_get_name(space_act));
+      screen_area_puts(ge->descript, str);
+    }
+  }
+
+  if (game_get_player(game)) {
+    if (player_get_object(game_get_player(game)) != NO_ID) {
+      sprintf(str, "  Carrying: %s", object_get_name(game_get_object(game)));
+    } else {
+      sprintf(str, "  Carrying: nothing");
+    }
+    screen_area_puts(ge->descript, str);
+  }
+
   if ((obj_loc = game_get_object_location(game)) != NO_ID) {
     sprintf(str, "  Object location:%d", (int)obj_loc);
     screen_area_puts(ge->descript, str);
@@ -143,7 +159,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   screen_area_clear(ge->help);
   sprintf(str, " The commands you can use are:");
   screen_area_puts(ge->help, str);
-  sprintf(str, "     next or n, back or b, exit or e");
+  sprintf(str, "     next or n, back or b, take or t, drop or d, exit or e");
   screen_area_puts(ge->help, str);
 
   /* Paint in the feedback area */
