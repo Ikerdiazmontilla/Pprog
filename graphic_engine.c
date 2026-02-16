@@ -18,16 +18,53 @@
 #include "space.h"
 #include "types.h"
 
+/**
+ * @brief Width of the map area in characters
+ * @author Profesores PPROG
+ */
 #define WIDTH_MAP 48
+/**
+ * @brief Width of the description area in characters
+ * @author Profesores PPROG
+ */
 #define WIDTH_DES 29
+/**
+ * @brief Width of the banner area in characters
+ * @author Profesores PPROG
+ */
 #define WIDTH_BAN 25
+/**
+ * @brief Height of the map area in rows
+ * @author Profesores PPROG
+ */
 #define HEIGHT_MAP 13
+/**
+ * @brief Height of the banner area in rows
+ * @author Profesores PPROG
+ */
 #define HEIGHT_BAN 1
+/**
+ * @brief Height of the help area in rows
+ * @author Profesores PPROG
+ */
 #define HEIGHT_HLP 2
+/**
+ * @brief Height of the feedback area in rows
+ * @author Profesores PPROG
+ */
 #define HEIGHT_FDB 3
 
+/**
+ * @brief Graphic engine data
+ *
+ * This struct stores all screen areas used to render the game interface.
+ */
 struct _Graphic_engine {
-  Area *map, *descript, *banner, *help, *feedback;
+  Area *map;      /*!< Map area */
+  Area *descript; /*!< Description area */
+  Area *banner;   /*!< Banner area */
+  Area *help;     /*!< Help area */
+  Area *feedback; /*!< Feedback area */
 };
 
 Graphic_engine *graphic_engine_create() {

@@ -15,6 +15,10 @@
 #include <string.h>
 #include <strings.h>
 
+/**
+ * @brief Maximum input length for command parsing
+ * @author Profesores PPROG
+ */
 #define CMD_LENGTH 30
 
 /**

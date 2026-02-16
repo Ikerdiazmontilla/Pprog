@@ -25,7 +25,14 @@
  */
 #define N_CMD 7
 
-typedef enum { CMDS, CMDL } CommandType;
+/**
+ * @brief Command token type selector
+ * @author Profesores PPROG
+ */
+typedef enum {
+  CMDS, /*!< Short command token */
+  CMDL  /*!< Long command token */
+} CommandType;
 
 /**
  * @brief Supported command codes

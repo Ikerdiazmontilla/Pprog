@@ -8,12 +8,11 @@
  * @copyright GNU Public License
  */
 
+#include "player.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "types.h"
-#include "player.h"
 
 
 

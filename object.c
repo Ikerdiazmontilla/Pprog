@@ -8,19 +8,18 @@
  * @copyright GNU Public License
  */
 
+#include "object.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "types.h"
-#include "object.h"
 
 
 
 /**
  * @brief object
  *
- * This struct stores all the information of a object.
+ * This struct stores all the information of an object.
  */
 struct _Object {
   Id id;                    /*!< Id number of the object, it must be unique */

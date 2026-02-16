@@ -37,6 +37,15 @@ int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name);
  */
 void game_loop_cleanup(Game game, Graphic_engine *gengine);
 
+/**
+ * @brief Main entry point of the game
+ * @author Profesores PPROG
+ *
+ * @param argc number of command line arguments
+ * @param argv array with command line arguments
+ * @return 0 if the execution finishes correctly, 1 otherwise
+ */
+
 int main(int argc, char *argv[]) {
   Game game;
   Graphic_engine *gengine;
@@ -53,7 +62,7 @@ int main(int argc, char *argv[]) {
   if (result == 1) {
     fprintf(stderr, "Error while initializing game.\n");
     return 1;
-  } else if (result == 2){
+  } else if (result == 2) {
     fprintf(stderr, "Error while initializing graphic engine.\n");
     return 1;
   }

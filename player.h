@@ -104,7 +104,7 @@ Id player_get_location(Player* player);
  * @brief It prints the player information
  * @author Fernando Pina
  *
- * This fucntion shows the id and name of the player,and if it has an object or not.
+ * This function shows the id and name of the player, and if it has an object or not.
  * @param player a pointer to the player
  * @return OK, if everything goes well or ERROR if there was some mistake
  */

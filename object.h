@@ -25,7 +25,7 @@ typedef struct _Object Object;
 Object* object_create(Id id);
 
 /**
- * @brief It destroys a object, freeing the allocated memory
+ * @brief It destroys an object, freeing the allocated memory
  * @author Fernando Pina
  *
  * @param object a pointer to the object that must be destroyed
@@ -34,7 +34,7 @@ Object* object_create(Id id);
 Status object_destroy(Object* object);
 
 /**
- * @brief It gets the id of a object
+ * @brief It gets the id of an object
  * @author Fernando Pina
  *
  * @param object a pointer to the object
@@ -43,7 +43,7 @@ Status object_destroy(Object* object);
 Id object_get_id(Object* object);
 
 /**
- * @brief It sets the name of a object
+ * @brief It sets the name of an object
  * @author Fernando Pina
  *
  * @param object a pointer to the object
@@ -53,7 +53,7 @@ Id object_get_id(Object* object);
 Status object_set_name(Object* object, char* name);
 
 /**
- * @brief It gets the name of a object
+ * @brief It gets the name of an object
  * @author Fernando Pina
  *
  * @param object a pointer to the object
@@ -66,7 +66,7 @@ const char* object_get_name(Object* object);
  * @brief It prints the object information
  * @author Fernando Pina
  *
- * This fucntion shows the id and name of the object
+ * This function shows the id and name of the object.
  * @param object a pointer to the object
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
