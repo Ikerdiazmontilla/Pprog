@@ -21,7 +21,7 @@
 
 /**
  * @brief Number of supported commands (including NO_CMD and UNKNOWN)
- * @author Profesores PPROG
+ * @author Iker Díaz
  */
 #define N_CMD 7
 
@@ -29,7 +29,7 @@ typedef enum { CMDS, CMDL } CommandType;
 
 /**
  * @brief Supported command codes
- * @author Profesores PPROG
+ * @author Iker Díaz
  */
 typedef enum { NO_CMD = -1, UNKNOWN, EXIT, NEXT, BACK, TAKE, DROP } CommandCode;
 
@@ -37,7 +37,7 @@ typedef struct _Command Command;
 
 /**
  * @brief Command token table (short and long)
- * @author Profesores PPROG
+ * @author Iker Díaz
  */
 extern char* cmd_to_str[N_CMD][N_CMDT];
 
@@ -79,7 +79,7 @@ CommandCode command_get_code(Command* command);
 
 /**
  * @brief It reads user input and updates the command code
- * @author Profesores PPROG
+ * @author Iker Díaz
  *
  * @param command a pointer to the command
  * @return OK if everything goes well, ERROR otherwise

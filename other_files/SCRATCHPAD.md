@@ -15,3 +15,14 @@
 - Why: Some `#include`s were removed and we forgot `NULL` needs `stddef.h` (or `stdlib.h`).
 - Fix applied: Added `#include <stddef.h>` in `game_actions.c`.
 - Prevention: After touching includes, always compile immediately with `-Wall` to catch missing headers/defines early.
+
+## 2026-02-16T10:55:55+01:00
+- Lesson: Keep author tags consistent with the project convention requested by the team.
+- Fix applied: Updated modified function/module documentation to use `@author Iker Díaz`, changed previous `Equipo PPROG` tags, and kept `Fernando Pina` in `player.*` and `object.*`.
+- Prevention: Before finishing any change, run a quick `@author` review to ensure new/edited docs follow the current author policy.
+
+## 2026-02-16T11:00:31+01:00
+- What failed: Author replacement was too broad and changed some seed authors that should have stayed as `Profesores PPROG`.
+- Why: Replacement was done at file level instead of only on modified functions.
+- Fix applied: Restored `Profesores PPROG` in untouched seed sections and kept `Iker Díaz` only on modified parts; kept `Fernando Pina` in `player.*` and `object.*`.
+- Prevention: Apply author changes per-function, not with blanket replacements across entire files.

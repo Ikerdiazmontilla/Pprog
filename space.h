@@ -140,7 +140,7 @@ Id space_get_west(Space* space);
 
 /**
  * @brief It sets the id of the object in the space
- * @author Profesores PPROG
+ * @author Iker Díaz
  *
  * @param space a pointer to the space
  * @param object_id the id of the object in the space (or NO_ID if there is no object)
@@ -150,7 +150,7 @@ Status space_set_object(Space* space, Id object_id);
 
 /**
  * @brief It gets the id of the object in the space
- * @author Profesores PPROG
+ * @author Iker Díaz
  *
  * @param space a pointer to the space
  * @return the id of the object in the space (or NO_ID if there is no object)

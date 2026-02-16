@@ -33,7 +33,7 @@ void graphic_engine_destroy(Graphic_engine* ge);
 
 /**
  * @brief It paints the current game state on screen
- * @author Profesores PPROG
+ * @author Iker Díaz
  *
  * @param ge a pointer to the graphic engine
  * @param game a pointer to the game

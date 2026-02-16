@@ -19,7 +19,7 @@
 
 /**
  * @brief It initializes the game and graphic engine
- * @author Profesores PPROG
+ * @author Iker Díaz
  *
  * @param game a pointer to the game
  * @param gengine a pointer to the graphic engine pointer

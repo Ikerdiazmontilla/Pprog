@@ -19,7 +19,7 @@
 
 /**
  * @brief Command token table (short and long)
- * @author Profesores PPROG
+ * @author Iker Díaz
  */
 char* cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"},
                                   {"", "Unknown"},

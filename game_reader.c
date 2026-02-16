@@ -2,7 +2,7 @@
  * @brief It implements the game reader module
  *
  * @file game_reader.c
- * @author Profesores PPROG
+ * @author Iker Díaz
  * @version 0
  * @date 27-01-2025
  * @copyright GNU Public License
@@ -17,7 +17,7 @@
 
 /**
  * @brief It loads spaces from a data file
- * @author Profesores PPROG
+ * @author Iker Díaz
  *
  * @param game a pointer to the game
  * @param filename path to the data file

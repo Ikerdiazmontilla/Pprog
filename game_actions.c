@@ -2,7 +2,7 @@
  * @brief It implements the game update through user actions
  *
  * @file game_actions.c
- * @author Profesores PPROG
+ * @author Iker Díaz
  * @version 0
  * @date 27-01-2025
  * @copyright GNU Public License
@@ -18,7 +18,7 @@
 
 /**
  * @brief It handles an unknown command
- * @author Equipo PPROG
+ * @author Iker Díaz
  *
  * @param game a pointer to the game
  */
@@ -26,7 +26,7 @@ static void game_actions_unknown(Game* game);
 
 /**
  * @brief It handles the exit command
- * @author Equipo PPROG
+ * @author Iker Díaz
  *
  * @param game a pointer to the game
  */
@@ -34,7 +34,7 @@ static void game_actions_exit(Game* game);
 
 /**
  * @brief It handles the next command (move south)
- * @author Equipo PPROG
+ * @author Iker Díaz
  *
  * @param game a pointer to the game
  */
@@ -42,7 +42,7 @@ static void game_actions_next(Game* game);
 
 /**
  * @brief It handles the back command (move north)
- * @author Equipo PPROG
+ * @author Iker Díaz
  *
  * @param game a pointer to the game
  */
@@ -50,7 +50,7 @@ static void game_actions_back(Game* game);
 
 /**
  * @brief It handles the take command
- * @author Equipo PPROG
+ * @author Iker Díaz
  *
  * @param game a pointer to the game
  */
@@ -58,7 +58,7 @@ static void game_actions_take(Game* game);
 
 /**
  * @brief It handles the drop command
- * @author Equipo PPROG
+ * @author Iker Díaz
  *
  * @param game a pointer to the game
  */

@@ -69,6 +69,10 @@ Use the same format as `space.c` / `space.h`:
   - `@author` (a **single** author per function, as required by D1)
   - `@param` for each parameter (if any)
   - `@return`
+- Project-specific author policy:
+  - Keep the original author for untouched seed functions (e.g., **Profesores PPROG**).
+  - For modified seed functions, set the function author to **Iker Díaz**.
+  - Keep **Fernando Pina** as author for functions in modules he implemented (`player.*` and `object.*`) and directly related updates there.
 - Keep `@brief` short but precise. Add `@note` only when it improves clarity.
 
 Example (as in `space.h`):
@@ -117,4 +121,3 @@ struct _Player {
 - `.c` and `.h` files have complete file headers.
 - Public and private function docs are present and correct.
 - No copy/paste mistakes in `@file`, function names, or parameter names.
-

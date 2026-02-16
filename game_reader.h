@@ -2,7 +2,7 @@
  * @brief It defines the game reader module interface
  *
  * @file game_reader.h
- * @author Profesores PPROG
+ * @author Iker Díaz
  * @version 0
  * @date 10-02-2026
  * @copyright GNU Public License
@@ -16,7 +16,7 @@
 
 /**
  * @brief It creates a game from a data file
- * @author Profesores PPROG
+ * @author Iker Díaz
  *
  * This function initializes the game structure, loads spaces from the file and places
  * the player and the object in the first loaded space.
