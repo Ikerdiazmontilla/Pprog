@@ -26,3 +26,9 @@
 - Why: Replacement was done at file level instead of only on modified functions.
 - Fix applied: Restored `Profesores PPROG` in untouched seed sections and kept `Iker Díaz` only on modified parts; kept `Fernando Pina` in `player.*` and `object.*`.
 - Prevention: Apply author changes per-function, not with blanket replacements across entire files.
+
+## 2026-02-16T12:17:20+01:00
+- What failed: Zip verification command (`unzip -l entrega_i1.zip`) failed right after creation.
+- Why: I launched `zip` and `unzip` in parallel, so listing could run before the archive was fully available.
+- Fix applied: Re-ran packaging and verification sequentially (create first, then list/validate contents).
+- Prevention: Do not parallelize dependent packaging steps (`zip` -> `unzip`/validation).
