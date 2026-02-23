@@ -23,14 +23,7 @@
  */
 #define MAX_SPACES 100
 
-typedef struct _Game {
-  Player* player;            /*!< Game player */
-  Object* object;            /*!< Game object */
-  Space* spaces[MAX_SPACES]; /*!< Space list */
-  int n_spaces;              /*!< Number of loaded spaces */
-  Command* last_cmd;         /*!< Last command introduced by the user */
-  Bool finished;             /*!< Whether the game is finished */
-} Game;
+typedef struct _Game Game;
 
 /**
  * @brief It creates a new game, initializing its members
