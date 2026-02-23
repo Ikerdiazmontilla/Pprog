@@ -18,8 +18,8 @@
  * @brief It creates a game from a data file
  * @author Iker Díaz
  *
- * This function initializes the game structure, loads spaces from the file and places
- * the player and the object in the first loaded space.
+ * This function initializes the game structure, loads spaces and objects from the file
+ * and places the player in the first loaded space.
  *
  * @param game a pointer to the game to initialize
  * @param filename path to the game data file

@@ -2,7 +2,7 @@
  * @brief It implements the player module
  *
  * @file player.c
- * @author Fernando Pina
+ * @author Iker Díaz
  * @version 0
  * @date 04-02-2026
  * @copyright GNU Public License
@@ -26,6 +26,8 @@ struct _Player {
   char name[WORD_SIZE + 1]; /*!< Name of the player */
   Id object;                /*!< Carried object id (or NO_ID) */
   Id location;              /*!< Current space id */
+  int health;               /*!< Current health points of the player */
+  char gdesc[PLAYER_GDESC_SIZE + 1]; /*!< Graphic description of the player */
 };
 
 /** player_create allocates memory for a new player
@@ -47,6 +49,8 @@ Player* player_create(Id id) {
   newPlayer->name[0] = '\0';
   newPlayer->object = NO_ID;
   newPlayer->location = NO_ID;
+  newPlayer->health = 0;
+  newPlayer->gdesc[0] = '\0';
 
   return newPlayer;
 }
@@ -122,6 +126,41 @@ Id player_get_location(Player* player) {
   return player->location;
 }
 
+Status player_set_health(Player* player, int health) {
+  if (!player || health < 0) {
+    return ERROR;
+  }
+
+  player->health = health;
+  return OK;
+}
+
+int player_get_health(Player* player) {
+  if (!player) {
+    return -1;
+  }
+
+  return player->health;
+}
+
+Status player_set_gdesc(Player* player, char* gdesc) {
+  if (!player || !gdesc) {
+    return ERROR;
+  }
+
+  strncpy(player->gdesc, gdesc, PLAYER_GDESC_SIZE);
+  player->gdesc[PLAYER_GDESC_SIZE] = '\0';
+  return OK;
+}
+
+const char* player_get_gdesc(Player* player) {
+  if (!player) {
+    return NULL;
+  }
+
+  return player->gdesc;
+}
+
 
 Status player_print(Player* player) {
   
@@ -147,6 +186,9 @@ Status player_print(Player* player) {
   } else {
     fprintf(stdout, "---> no location.\n");
   }
+
+  fprintf(stdout, "---> Player health points: %d.\n", player->health);
+  fprintf(stdout, "---> Player gdesc: %s.\n", player->gdesc);
 
 
   return OK;

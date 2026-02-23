@@ -2,7 +2,7 @@
  * @brief It implements the space module
  *
  * @file space.c
- * @author Profesores PPROG
+ * @author Iker Díaz
  * @version 0
  * @date 24-01-2026
  * @copyright GNU Public License
@@ -27,6 +27,8 @@ struct _Space {
   Id east;                  /*!< Id of the space at the east */
   Id west;                  /*!< Id of the space at the west */
   Id object;                /*!< Id of the object in the space (or NO_ID) */
+  Id character;             /*!< Id of the character in the space (or NO_ID) */
+  char gdesc[SPACE_GDESC_LINES][SPACE_GDESC_LENGTH + 1]; /*!< Graphical description lines */
 };
 
 /** space_create allocates memory for a new space
@@ -34,6 +36,7 @@ struct _Space {
  */
 Space* space_create(Id id) {
   Space* newSpace = NULL;
+  int i = 0;
 
   /* Error control */
   if (id == NO_ID) return NULL;
@@ -51,6 +54,10 @@ Space* space_create(Id id) {
   newSpace->east = NO_ID;
   newSpace->west = NO_ID;
   newSpace->object = NO_ID;
+  newSpace->character = NO_ID;
+  for (i = 0; i < SPACE_GDESC_LINES; i++) {
+    newSpace->gdesc[i][0] = '\0';
+  }
 
   return newSpace;
 }
@@ -164,8 +171,44 @@ Id space_get_object(Space* space) {
   return space->object;
 }
 
+Status space_set_character(Space* space, Id character_id) {
+  if (!space) {
+    return ERROR;
+  }
+
+  space->character = character_id;
+  return OK;
+}
+
+Id space_get_character(Space* space) {
+  if (!space) {
+    return NO_ID;
+  }
+
+  return space->character;
+}
+
+Status space_set_gdesc(Space* space, int line, char* gdesc) {
+  if (!space || !gdesc || line < 0 || line >= SPACE_GDESC_LINES) {
+    return ERROR;
+  }
+
+  strncpy(space->gdesc[line], gdesc, SPACE_GDESC_LENGTH);
+  space->gdesc[line][SPACE_GDESC_LENGTH] = '\0';
+  return OK;
+}
+
+const char* space_get_gdesc(Space* space, int line) {
+  if (!space || line < 0 || line >= SPACE_GDESC_LINES) {
+    return NULL;
+  }
+
+  return space->gdesc[line];
+}
+
 Status space_print(Space* space) {
   Id idaux = NO_ID;
+  int i = 0;
 
   /* Error Control */
   if (!space) {
@@ -206,6 +249,16 @@ Status space_print(Space* space) {
     fprintf(stdout, "---> Object in the space (Id: %ld).\n", space->object);
   } else {
     fprintf(stdout, "---> No object in the space.\n");
+  }
+
+  if (space_get_character(space) != NO_ID) {
+    fprintf(stdout, "---> Character in the space (Id: %ld).\n", space->character);
+  } else {
+    fprintf(stdout, "---> No character in the space.\n");
+  }
+
+  for (i = 0; i < SPACE_GDESC_LINES; i++) {
+    fprintf(stdout, "---> Gdesc line %d: %s\n", i, space->gdesc[i]);
   }
 
   return OK;
