@@ -36,9 +36,44 @@ Set* set_create(Id *id, const int n_ids);
 Status set_destroy(Set *set);
 
 
+/**
+ * @brief It add a id
+ * @author Fernando Pina
+ * @param id the id to add
+ * @param set a pointer to the set
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status set_add_id(Set *set ,Id id);
 
 
 
+/**
+ * @brief It add a id
+ * @author Fernando Pina
+ * @param id the id to delate
+ * @param set a pointer to the set
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status set_del_id(Set *set ,Id id);
+
+/**
+ * @brief It finds a id
+ * @author Fernando Pina
+ * @param id the id to find
+ * @param set a pointer to the set
+ * @return True if the id is in the array or False if not
+ */
+Bool set_find_id(Set *set, Id id);
+
+
+/**
+ * @brief It finds a id
+ * @author Fernando Pina
+ * @param id the id to find
+ * @param set a pointer to the set
+ * @return True if the id is in the array or False if not
+ */
+Status set_print(Set *set);
 
 
 #endif
