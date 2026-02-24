@@ -1,0 +1,50 @@
+Funcion: set_add_id
+
+Entrada: set (Set*), id (Id)
+Salida: Status (OK o ERROR)
+
+si set es NULL o id es NO_ID
+    devolver ERROR
+fin si
+
+set.id[set.n_ids] <- id
+set.n_ids <- set.n_ids + 1
+
+devolver OK
+
+
+Funcion: set_del_id
+
+Entrada: set (Set*), id (Id)
+Salida: Status (OK o ERROR)
+
+i <- 0
+pos <- -1
+
+si set es NULL o id es NO_ID o set.n_ids <= 0
+    devolver ERROR
+fin si
+
+para i desde 0 hasta set.n_ids - 1
+    si set.id[i] == id
+        pos <- i
+        salir del bucle
+    fin si
+fin para
+
+si pos == -1
+    devolver ERROR
+fin si
+
+para i desde pos hasta set.n_ids - 2
+    set.id[i] <- set.id[i + 1]
+fin para
+
+set.n_ids <- set.n_ids - 1
+set.id[set.n_ids] <- NO_ID
+
+devolver OK
+
+
+
+

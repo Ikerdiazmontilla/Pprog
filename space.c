@@ -8,6 +8,7 @@
  * @copyright GNU Public License
  */
 
+#include "set.h"
 #include "space.h"
 
 #include <stdio.h>
@@ -26,7 +27,7 @@ struct _Space {
   Id south;                 /*!< Id of the space at the south */
   Id east;                  /*!< Id of the space at the east */
   Id west;                  /*!< Id of the space at the west */
-  Id object;                /*!< Id of the object in the space (or NO_ID) */
+  Id *object;                /*!< Id of the object in the space (or NO_ID) */
   Id character;             /*!< Id of the character in the space (or NO_ID) */
   char gdesc[SPACE_GDESC_LINES][SPACE_GDESC_LENGTH + 1]; /*!< Graphical description lines */
 };
