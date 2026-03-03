@@ -76,5 +76,8 @@ Bool set_find_id(Set *set, Id id);
 Status set_print(Set *set);
 
 
+int set_get_n_ids(Set *set);
+Id *set_get_ids(Set *set);
+
 #endif
 

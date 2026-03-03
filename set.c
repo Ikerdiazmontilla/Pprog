@@ -149,3 +149,34 @@ Status set_print(Set *set)
     return OK;
 
 }
+
+
+int set_get_n_ids(Set *set)
+{
+    if (set == NULL)
+    {
+        return -1;
+    }
+    
+    return set->n_ids;
+    
+}
+
+Id set_get_id(Set *set)
+{
+    if (set == NULL)
+    {
+        return NO_ID;
+    }
+    
+}
+
+Id *set_get_ids(Set *set)
+{
+    if (!(set))
+    {
+        return NO_ID;
+    }
+    
+    return set->id;
+}

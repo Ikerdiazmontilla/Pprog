@@ -27,7 +27,7 @@ struct _Space {
   Id south;                 /*!< Id of the space at the south */
   Id east;                  /*!< Id of the space at the east */
   Id west;                  /*!< Id of the space at the west */
-  Id *object;                /*!< Id of the object in the space (or NO_ID) */
+  Set *objects;                /*!< Id of the object in the space (or NO_ID) */
   Id character;             /*!< Id of the character in the space (or NO_ID) */
   char gdesc[SPACE_GDESC_LINES][SPACE_GDESC_LENGTH + 1]; /*!< Graphical description lines */
 };
@@ -54,7 +54,7 @@ Space* space_create(Id id) {
   newSpace->south = NO_ID;
   newSpace->east = NO_ID;
   newSpace->west = NO_ID;
-  newSpace->object = NO_ID;
+  newSpace->objects = NULL;
   newSpace->character = NO_ID;
   for (i = 0; i < SPACE_GDESC_LINES; i++) {
     newSpace->gdesc[i][0] = '\0';
@@ -161,26 +161,104 @@ Status space_set_object(Space* space, Id object_id) {
   if (!space) {
     return ERROR;
   }
-  space->object = object_id;
+  if ((set_add_id(space->objects,object_id)) == ERROR)
+  {
+    return ERROR;
+  }
+  
+  
   return OK;
 }
+
+
 
 Id space_get_object(Space* space) {
   if (!space) {
     return NO_ID;
   }
-  return space->object;
+  return space->objects;
 }
 
-Status space_set_character(Space* space, Id character_id) {
-  if (!space) {
+Status space_add_object(Space *space, Id object_Id)
+{
+  if (!(space) || object_Id == NO_ID)
+  {
+      return ERROR;
+  }
+  
+  if ((set_find_id(space->objects, object_Id)) == TRUE)
+  {
+      return ERROR;
+  }else
+  {
+   if ((set_add_id(space->objects, object_Id)) == ERROR)
+   {
+      return ERROR;
+   }
+      return OK;
+  }
+  
+}
+
+
+
+Status space_del_object(Space *space, Id id)
+{
+  if (!(space) || id == NO_ID)
+  {
     return ERROR;
   }
+  
+  if ((set_find_id(space->objects, id)) == FALSE)
+  {
+   return ERROR;
+  }
 
-  space->character = character_id;
+  if ((set_del_id(space->objects, id)) == ERROR)
+  {
+    return ERROR;
+  }
+  
   return OK;
+
 }
 
+Bool space_find_object_id(Space *space, Id object_id)
+{
+  if (!(space) || object_id == NO_ID)
+  {
+    return FALSE;
+  }
+  
+  if ((set_find_id(space->objects, object_id)) == TRUE)
+  {
+   return ERROR;
+  }
+
+  return TRUE;
+}
+
+
+int space_get_obects_n_ids(Space *space)
+{
+  if (!(space))
+  {
+    return -1;
+  }
+  return set_get_n_ids(space->objects);
+  
+  
+}
+
+Id *space_get_objects_ids(Space *space)
+{
+  if (!(space))
+  {
+    return NO_ID;
+  }
+  return set_get_ids(space->objects);
+  
+}
 Id space_get_character(Space* space) {
   if (!space) {
     return NO_ID;
@@ -247,7 +325,7 @@ Status space_print(Space* space) {
 
   /* 3. Print if there is an object in the space or not */
   if (space_get_object(space) != NO_ID) {
-    fprintf(stdout, "---> Object in the space (Id: %ld).\n", space->object);
+    fprintf(stdout, "---> Object in the space (Id: %ld).\n", space->objects);
   } else {
     fprintf(stdout, "---> No object in the space.\n");
   }

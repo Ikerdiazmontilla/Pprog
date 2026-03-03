@@ -219,4 +219,13 @@ const char* space_get_gdesc(Space* space, int line);
  */
 Status space_print(Space* space);
 
+Status space_add_object(Space *space, Id object_Id);
+
+Status space_del_object(Space *space, Id id);
+
+Bool space_find_object_id(Space *space, Id object_id);
+
+int space_get_obects_n_ids(Space *space);
+
+Id *set_get_ids(Set *set);
 #endif
