@@ -157,29 +157,9 @@ Id space_get_west(Space* space) {
   return space->west;
 }
 
-Status space_set_object(Space* space, Id object_id) {
-  if (!space) {
-    return ERROR;
-  }
-  if ((set_add_id(space->objects,object_id)) == ERROR)
-  {
-    return ERROR;
-  }
-  
-  
-  return OK;
-}
 
 
-
-Id space_get_object(Space* space) {
-  if (!space) {
-    return NO_ID;
-  }
-  return space->objects;
-}
-
-Status space_add_object(Space *space, Id object_Id)
+Status space_set_object(Space *space, Id object_Id)
 {
   if (!(space) || object_Id == NO_ID)
   {
@@ -239,7 +219,7 @@ Bool space_find_object_id(Space *space, Id object_id)
 }
 
 
-int space_get_obects_n_ids(Space *space)
+int space_get_n_objects(Space *space)
 {
   if (!(space))
   {
@@ -254,7 +234,7 @@ Id *space_get_objects_ids(Space *space)
 {
   if (!(space))
   {
-    return NO_ID;
+    return NULL;
   }
   return set_get_ids(space->objects);
   
@@ -288,6 +268,8 @@ const char* space_get_gdesc(Space* space, int line) {
 Status space_print(Space* space) {
   Id idaux = NO_ID;
   int i = 0;
+  int n_objects = 0;
+  Id *ids = NULL;
 
   /* Error Control */
   if (!space) {
@@ -323,9 +305,17 @@ Status space_print(Space* space) {
     fprintf(stdout, "---> No west link.\n");
   }
 
+
   /* 3. Print if there is an object in the space or not */
-  if (space_get_object(space) != NO_ID) {
-    fprintf(stdout, "---> Object in the space (Id: %ld).\n", space->objects);
+  n_objects = space_get_n_objects(space);
+  ids = space_get_objects_ids(space);
+  if ( n_objects != 0) {
+
+    for ( ; i < n_objects; i++)
+    {
+      fprintf(stdout, "---> Object %d/%d the space (Id: %ld).\n",i+1,n_objects, ids[i]); 
+    }
+    
   } else {
     fprintf(stdout, "---> No object in the space.\n");
   }

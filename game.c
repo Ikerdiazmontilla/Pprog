@@ -210,7 +210,7 @@ Status game_add_object(Game* game, Object* object, Id location_id) {
   game->object_locations[game->n_objects] = location_id;
   game->n_objects++;
 
-  if (space_get_object(space) == NO_ID) {
+  if (space_get_n_objects(space) == 0) {
     space_set_object(space, object_id);
   }
 
@@ -250,7 +250,7 @@ Id game_get_object_location_by_id(Game* game, Id object_id) {
   }
 
   for (i = 0; i < game->n_spaces; i++) {
-    if (space_get_object(game->spaces[i]) == object_id) {
+    if (space_find_object_id(game->spaces[i], object_id) == TRUE) {
       return space_get_id(game->spaces[i]);
     }
   }
@@ -293,13 +293,13 @@ Status game_set_object_location_by_id(Game* game, Id object_id, Id id) {
   }
 
   for (i = 0; i < game->n_spaces; i++) {
-    if (space_get_object(game->spaces[i]) == object_id) {
+    if (space_find_object_id(game->spaces[i],object_id) == TRUE) {
       space_set_object(game->spaces[i], NO_ID);
     }
   }
 
   game->object_locations[index] = id;
-  if (space_get_object(space) == NO_ID) {
+  if (space_find_object_id(space, object_id) == FALSE) {
     space_set_object(space, object_id);
   }
 

@@ -49,6 +49,22 @@ static void game_actions_next(Game* game);
 static void game_actions_back(Game* game);
 
 /**
+ * @brief It handles the next command (move west)
+ * @author Fernando Pina
+ *
+ * @param game a pointer to the game
+ */
+static void game_actions_left(Game* game);
+
+/**
+ * @brief It handles the next command (move east)
+ * @author Fernando Pina
+ *
+ * @param game a pointer to the game
+ */
+static void game_actions_right(Game* game);
+
+/**
  * @brief It handles the take command
  * @author Iker Díaz
  *
@@ -63,6 +79,8 @@ static void game_actions_take(Game* game);
  * @param game a pointer to the game
  */
 static void game_actions_drop(Game* game);
+
+
 
 /**
    Game actions implementation
@@ -92,6 +110,14 @@ Status game_actions_update(Game *game, Command *command) {
       game_actions_back(game);
       break;
 
+    case LEFT:
+      game_actions_left(game);
+      break;
+
+    case RIGHT:
+      game_actions_right(game);
+      break;
+
     case TAKE:
       game_actions_take(game);
       break;
@@ -99,6 +125,7 @@ Status game_actions_update(Game *game, Command *command) {
     case DROP:
       game_actions_drop(game);
       break;
+
 
     default:
       break;
@@ -158,12 +185,47 @@ static void game_actions_back(Game* game) {
   return;
 }
 
+static void game_actions_left(Game* game) {
+  Id current_id = NO_ID;
+  Id space_id = NO_ID;
+
+  space_id = game_get_player_location(game);
+  if (space_id == NO_ID) {
+    return;
+  }
+
+  current_id = space_get_west(game_get_space(game, space_id));
+  if (current_id != NO_ID) {
+    game_set_player_location(game, current_id);
+  }
+
+  return;
+}
+
+static void game_actions_right(Game* game) {
+  Id current_id = NO_ID;
+  Id space_id = NO_ID;
+
+  space_id = game_get_player_location(game);
+  if (space_id == NO_ID) {
+    return;
+  }
+
+  current_id = space_get_east(game_get_space(game, space_id));
+  if (current_id != NO_ID) {
+    game_set_player_location(game, current_id);
+  }
+
+  return;
+}
+
 static void game_actions_take(Game* game) {
   Player* player = NULL;
   Space* space = NULL;
   Id space_id = NO_ID;
   Id space_object = NO_ID;
   Id object_id = NO_ID;
+  int n_objects = 0;
 
   if (!game) {
     return;
@@ -177,7 +239,7 @@ static void game_actions_take(Game* game) {
   if (player_get_object(player) != NO_ID) {
     return;
   }
-
+  
   object_id = object_get_id(game_get_object(game));
   if (object_id == NO_ID) {
     return;
@@ -224,7 +286,7 @@ static void game_actions_drop(Game* game) {
     return;
   }
 
-  if (space_get_object(space) != NO_ID) {
+  if (space_get_object(space) != NULL) {
     return;
   }
 

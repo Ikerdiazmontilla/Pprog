@@ -7,7 +7,7 @@ EXE = castle
 all: $(EXE)
 
 # Añadimos todos los .o necesarios
-$(EXE): game_loop.o game.o game_actions.o game_reader.o command.o graphic_engine.o player.o object.o character.o space.o
+$(EXE): game_loop.o game.o game_actions.o game_reader.o command.o graphic_engine.o player.o object.o character.o space.o set.o
 	$(CC) $(CFLAGS) -o $(EXE) $^ -L. -lscreen
 
 # Compilación de módulos individuales
@@ -46,6 +46,10 @@ character_test: character_test.o character.o
 
 character_test.o: character_test.c character.h types.h
 	$(CC) $(CFLAGS) -c character_test.c
+
+
+set.o:  types.h
+	$(CC) $(CFLAGS) -c set.c
 
 # Limpieza
 clean:

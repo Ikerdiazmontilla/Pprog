@@ -150,24 +150,7 @@ Status space_set_west(Space* space, Id id);
  */
 Id space_get_west(Space* space);
 
-/**
- * @brief It sets the id of the object in the space
- * @author Iker Díaz
- *
- * @param space a pointer to the space
- * @param object_id the id of the object in the space (or NO_ID if there is no object)
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status space_set_object(Space* space, Id object_id);
 
-/**
- * @brief It gets the id of the object in the space
- * @author Iker Díaz
- *
- * @param space a pointer to the space
- * @return the id of the object in the space (or NO_ID if there is no object)
- */
-Id space_get_object(Space* space);
 
 /**
  * @brief It sets the id of the character in the space
@@ -219,13 +202,14 @@ const char* space_get_gdesc(Space* space, int line);
  */
 Status space_print(Space* space);
 
-Status space_add_object(Space *space, Id object_Id);
+Status space_set_object(Space *space, Id object_Id);
 
 Status space_del_object(Space *space, Id id);
 
 Bool space_find_object_id(Space *space, Id object_id);
 
-int space_get_obects_n_ids(Space *space);
+int space_get_n_objects(Space *space);
 
-Id *set_get_ids(Set *set);
+Id *space_get_objects_ids(Space *space);
+
 #endif

@@ -30,6 +30,8 @@ char* cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"},
                                   {"e", "Exit"},
                                   {"n", "Next"},
                                   {"b", "Back"},
+                                  {"l", "Left"},
+                                  {"r", "Right"},
                                   {"t", "Take"},
                                   {"d", "Drop"}};
 

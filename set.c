@@ -27,14 +27,11 @@ struct _Set {
 };
 
 
-Set* set_create(Id *id, const int n_ids)
+Set* set_create()
 {   
     Set *new_set = NULL;
     int i = 0;
-    if (!(id) || n_ids <= 0)
-    {
-        return NULL;
-    }
+    
     
     new_set = (Set*)malloc(sizeof(Set));
     if (new_set == NULL)
@@ -42,10 +39,10 @@ Set* set_create(Id *id, const int n_ids)
         return NULL;
     }
     
-    new_set->n_ids = n_ids;
+    new_set->n_ids = 0;
     for ( i ; i < new_set->n_ids; i++)
     {
-        new_set->id[i] = id[i];
+        new_set->id[i] = NO_ID;
     }
     
     return new_set;
@@ -162,14 +159,7 @@ int set_get_n_ids(Set *set)
     
 }
 
-Id set_get_id(Set *set)
-{
-    if (set == NULL)
-    {
-        return NO_ID;
-    }
-    
-}
+
 
 Id *set_get_ids(Set *set)
 {

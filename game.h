@@ -17,6 +17,7 @@
 #include "player.h"
 #include "space.h"
 #include "types.h"
+#include "game.h"
 
 /**
  * @brief Maximum number of spaces in the game
