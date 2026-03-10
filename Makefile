@@ -48,7 +48,7 @@ character_test.o: character_test.c character.h types.h
 	$(CC) $(CFLAGS) -c character_test.c
 
 
-set.o:  types.h
+set.o:  set.c set.h types.h
 	$(CC) $(CFLAGS) -c set.c
 
 # Limpieza

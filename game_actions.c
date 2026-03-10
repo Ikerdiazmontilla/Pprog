@@ -115,6 +115,14 @@ static void game_actions_take_tapestry(Game* game);
  */
 static void game_actions_take_parchment(Game* game);
 
+/**
+ * @brief It handles the drop command
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ */
+static void game_actions_chat(Game* game);
+
 
 /**
    Game actions implementation
@@ -161,19 +169,23 @@ Status game_actions_update(Game *game, Command *command) {
       break;
 
     case TAKE_SWORD:
-      game_actions_attack(game);
+      game_actions_take_sword(game);
       break;
 
     case TAKE_CANDELABRA:
-    game_actions_attack(game);
+    game_actions_take_candelabra(game);
     break;
 
     case TAKE_TAPESTRY:
-    game_actions_attack(game);
+    game_actions_take_tapestry(game);
     break;
 
     case TAKE_PARCHMENT:
-    game_actions_attack(game);
+    game_actions_take_parchment(game);
+    break;
+
+    case CHAT:
+    game_actions_chat(game);
     break;
     
     default:

@@ -39,7 +39,7 @@ typedef enum {
  * @author Iker Díaz
  */
 typedef enum { NO_CMD = -1, UNKNOWN, EXIT, NEXT, BACK, DROP, LEFT, RIGHT, ATTACK, TAKE_SWORD, TAKE_CANDELABRA, 
-TAKE_TAPESTRY, TAKE_PARCHMENT } CommandCode;
+TAKE_TAPESTRY, TAKE_PARCHMENT, CHAT } CommandCode;
 
 typedef struct _Command Command;
 
