@@ -229,6 +229,26 @@ int space_get_n_objects(Space *space)
   
   
 }
+Bool space_is_empty_of_objects(Space* space)
+{ 
+  int n_objects = 0;
+
+  if (!space)
+  {
+    return FALSE;
+  }
+  
+  n_objects = set_get_n_ids(space->objects);
+  if (n_objects == 0)
+  {
+    return TRUE;
+  }else
+  {
+    return FALSE;
+  }
+  
+
+}
 
 Id *space_get_objects_ids(Space *space)
 {

@@ -11,6 +11,11 @@
 #include "game_actions.h"
 
 #include <stddef.h>
+#include <time.h>
+#include <stdlib.h>
+#include <string.h>
+
+
 
 /**
    Private functions
@@ -64,13 +69,6 @@ static void game_actions_left(Game* game);
  */
 static void game_actions_right(Game* game);
 
-/**
- * @brief It handles the take command
- * @author Iker Díaz
- *
- * @param game a pointer to the game
- */
-static void game_actions_take(Game* game);
 
 /**
  * @brief It handles the drop command
@@ -80,6 +78,42 @@ static void game_actions_take(Game* game);
  */
 static void game_actions_drop(Game* game);
 
+/**
+ * @brief It handles the drop command
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ */
+static void game_actions_attack(Game* game);
+
+/**
+ * @brief It handles the drop command
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ */
+static void game_actions_take_sword(Game* game);
+/**
+ * @brief It handles the drop command
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ */
+static void game_actions_take_candelabra(Game* game);
+/**
+ * @brief It handles the drop command
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ */
+static void game_actions_take_tapestry(Game* game);
+/**
+ * @brief It handles the drop command
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ */
+static void game_actions_take_parchment(Game* game);
 
 
 /**
@@ -118,15 +152,30 @@ Status game_actions_update(Game *game, Command *command) {
       game_actions_right(game);
       break;
 
-    case TAKE:
-      game_actions_take(game);
-      break;
-
     case DROP:
       game_actions_drop(game);
       break;
 
+    case ATTACK:
+      game_actions_attack(game);
+      break;
 
+    case TAKE_SWORD:
+      game_actions_attack(game);
+      break;
+
+    case TAKE_CANDELABRA:
+    game_actions_attack(game);
+    break;
+
+    case TAKE_TAPESTRY:
+    game_actions_attack(game);
+    break;
+
+    case TAKE_PARCHMENT:
+    game_actions_attack(game);
+    break;
+    
     default:
       break;
   }
@@ -219,46 +268,7 @@ static void game_actions_right(Game* game) {
   return;
 }
 
-static void game_actions_take(Game* game) {
-  Player* player = NULL;
-  Space* space = NULL;
-  Id space_id = NO_ID;
-  Id space_object = NO_ID;
-  Id object_id = NO_ID;
-  int n_objects = 0;
 
-  if (!game) {
-    return;
-  }
-
-  player = game_get_player(game);
-  if (!player) {
-    return;
-  }
-
-  if (player_get_object(player) != NO_ID) {
-    return;
-  }
-  
-  object_id = object_get_id(game_get_object(game));
-  if (object_id == NO_ID) {
-    return;
-  }
-
-  space_id = game_get_player_location(game);
-  space = game_get_space(game, space_id);
-  if (!space) {
-    return;
-  }
-
-  space_object = space_get_object(space);
-  if (space_object != object_id) {
-    return;
-  }
-
-  player_set_object(player, object_id);
-  space_set_object(space, NO_ID);
-}
 
 static void game_actions_drop(Game* game) {
   Player* player = NULL;
@@ -286,10 +296,410 @@ static void game_actions_drop(Game* game) {
     return;
   }
 
-  if (space_get_object(space) != NULL) {
+  space_set_object(space, player_object);
+  player_set_object(player, NO_ID);
+}
+
+
+static void game_actions_attack(Game* game){
+  
+  Player* player = NULL;
+  Space* space = NULL;
+  Character* character = NULL;
+  Id space_id = NO_ID;
+  Id character_id = NO_ID;
+  int player_health = 0;
+  int character_health = 0;
+  int random_number = 0;
+
+  if (!game) {
+    
+    return;
+  }
+  
+  player = game_get_player(game);
+  if (!player) {
     return;
   }
 
-  space_set_object(space, player_object);
-  player_set_object(player, NO_ID);
+  space_id = game_get_player_location(game);
+  space = game_get_space(game, space_id);
+  if (!space) {
+    return;
+  }
+  character_id = space_get_character(space);
+  if (character_id == NO_ID)
+  {
+    return;  //solo hay un jugador, no puedes atacara la nada
+  }
+  
+  character = game_get_character(game,character_id);
+  if (!character)
+  {
+    return;
+  }
+
+  if (character_get_friendly(character) == TRUE)
+  {
+    return;
+  }
+  
+  
+  player_health = player_get_health(player);
+  
+  if (player_health == 0)
+  {
+    return;
+  }
+  character_health = character_get_health(character);
+  
+  if (character_health == 0)
+  {
+    return;
+  
+  }
+  random_number = (rand()%10);
+
+  if (random_number >= 0 && random_number <= 4)
+  {
+    player_health--;
+    player_set_health(player,player_health);
+    if (player_health == 0)
+    {
+      game_actions_exit(game);
+    }
+      
+  }else
+  {
+    character_health--;
+    character_set_health(character,character_health);
+  }
+
+  return;
+}
+
+static void game_actions_chat(Game* game) {
+  Player* player = NULL;
+  Space* space = NULL;
+  Character* character = NULL;
+  Id character_id = NO_ID;
+  Id space_id = NO_ID;
+  char* message;
+
+  if (!game) {
+    return;
+  }
+
+  player = game_get_player(game);
+  if (!player) {
+    return;
+  }
+
+  space_id = game_get_player_location(game);
+  space = game_get_space(game, space_id);
+  if (!space) {
+    return;
+  }
+
+    character_id = space_get_character(space);
+  if (character_id == NO_ID)
+  {
+    return;  //solo hay un jugador, no puedes atacara la nada
+  }
+  
+  character = game_get_character(game,character_id);
+  if (!character)
+  {
+    return;
+  }
+
+  if (character_get_friendly(character) == FALSE)
+  {
+    return;
+  }
+
+  message = "Hola!! me alegro de verte";
+  character_set_message(character, message);
+
+  return;
+}
+
+static void game_actions_take_sword(Game* game)
+{
+
+  Player* player = NULL;
+  Space* space = NULL;
+  Object* object = NULL;
+  Id space_id = NO_ID;
+  Id buffer = NO_ID;
+  int n_objects = 0;
+
+  
+
+  if (!game) {
+    return;
+  }
+
+  player = game_get_player(game);
+  if (!player) {
+    return;
+  }
+
+  if (player_get_object(player) != NO_ID) {
+    return;
+  }
+  
+  space_id = game_get_player_location(game);
+  space = game_get_space(game, space_id);
+  if (!space) {
+    return;
+  }
+
+  n_objects = game_get_n_objects(game);
+
+  if (n_objects == 0)
+  {
+    return;
+  }
+  
+  for (int i = 0; i < n_objects; i++)
+  {
+    buffer = game_get_object_id_at(game, i);
+    if (buffer == NO_ID)
+    {
+      return;
+    }
+    
+    object = game_get_object_by_id(game,buffer);
+    if (!object)
+    {
+      return;
+    }
+    
+    if ((strcmp(object_get_name(object), "Sword")) == 0)
+    {
+      if (space_find_object_id(space,buffer) == FALSE)
+      {
+        return;
+      }
+
+      player_set_object(player, buffer);
+      space_del_object(space, buffer);
+      
+    }
+    
+  }
+  
+  return;  
+
+}
+
+static void game_actions_take_candelabra(Game* game)
+{
+
+  Player* player = NULL;
+  Space* space = NULL;
+  Object* object = NULL;
+  Id space_id = NO_ID;
+  Id buffer = NO_ID;
+  int n_objects = 0;
+
+  
+
+  if (!game) {
+    return;
+  }
+
+  player = game_get_player(game);
+  if (!player) {
+    return;
+  }
+
+  if (player_get_object(player) != NO_ID) {
+    return;
+  }
+  
+  space_id = game_get_player_location(game);
+  space = game_get_space(game, space_id);
+  if (!space) {
+    return;
+  }
+
+  n_objects = game_get_n_objects(game);
+
+  if (n_objects == 0)
+  {
+    return;
+  }
+  
+  for (int i = 0; i < n_objects; i++)
+  {
+    buffer = game_get_object_id_at(game, i);
+    if (buffer == NO_ID)
+    {
+      return;
+    }
+    
+    object = game_get_object_by_id(game,buffer);
+    if (!object)
+    {
+      return;
+    }
+    
+    if ((strcmp(object_get_name(object), "Candelabra")) == 0)
+    {
+      if (space_find_object_id(space,buffer) == FALSE)
+      {
+        return;
+      }
+
+      player_set_object(player, buffer);
+      space_del_object(space, buffer);
+      
+    }
+    
+  }
+  
+  return;  
+
+}
+
+static void game_actions_take_tapestry(Game* game)
+{
+
+  Player* player = NULL;
+  Space* space = NULL;
+  Object* object = NULL;
+  Id space_id = NO_ID;
+  Id buffer = NO_ID;
+  int n_objects = 0;
+
+  
+
+  if (!game) {
+    return;
+  }
+
+  player = game_get_player(game);
+  if (!player) {
+    return;
+  }
+
+  if (player_get_object(player) != NO_ID) {
+    return;
+  }
+  
+  space_id = game_get_player_location(game);
+  space = game_get_space(game, space_id);
+  if (!space) {
+    return;
+  }
+
+  n_objects = game_get_n_objects(game);
+
+  if (n_objects == 0)
+  {
+    return;
+  }
+  
+  for (int i = 0; i < n_objects; i++)
+  {
+    buffer = game_get_object_id_at(game, i);
+    if (buffer == NO_ID)
+    {
+      return;
+    }
+    
+    object = game_get_object_by_id(game,buffer);
+    if (!object)
+    {
+      return;
+    }
+    
+    if ((strcmp(object_get_name(object), "Tapestry")) == 0)
+    {
+      if (space_find_object_id(space,buffer) == FALSE)
+      {
+        return;
+      }
+
+      player_set_object(player, buffer);
+      space_del_object(space, buffer);
+      
+    }
+    
+  }
+  
+  return;  
+
+}
+
+static void game_actions_take_parchment(Game* game)
+{
+
+  Player* player = NULL;
+  Space* space = NULL;
+  Object* object = NULL;
+  Id space_id = NO_ID;
+  Id buffer = NO_ID;
+  int n_objects = 0;
+
+  
+
+  if (!game) {
+    return;
+  }
+
+  player = game_get_player(game);
+  if (!player) {
+    return;
+  }
+
+  if (player_get_object(player) != NO_ID) {
+    return;
+  }
+  
+  space_id = game_get_player_location(game);
+  space = game_get_space(game, space_id);
+  if (!space) {
+    return;
+  }
+
+  n_objects = game_get_n_objects(game);
+
+  if (n_objects == 0)
+  {
+    return;
+  }
+  
+  for (int i = 0; i < n_objects; i++)
+  {
+    buffer = game_get_object_id_at(game, i);
+    if (buffer == NO_ID)
+    {
+      return;
+    }
+    
+    object = game_get_object_by_id(game,buffer);
+    if (!object)
+    {
+      return;
+    }
+    
+    if ((strcmp(object_get_name(object), "Parchment")) == 0)
+    {
+      if (space_find_object_id(space,buffer) == FALSE)
+      {
+        return;
+      }
+
+      player_set_object(player, buffer);
+      space_del_object(space, buffer);
+      
+    }
+    
+  }
+  
+  return;  
+
 }

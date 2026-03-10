@@ -32,7 +32,12 @@ char* cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"},
                                   {"b", "Back"},
                                   {"l", "Left"},
                                   {"r", "Right"},
-                                  {"t", "Take"},
+                                  {"take sword", "Take Sword"},
+                                  {"take candelabra", "Take Candelabra"},
+                                  {"take tapestry", "Take Tapestry"},
+                                  {"take parchment", "Take Parchment"},
+                                  {"c", "Chat"},
+                                  {"a", "Attack"},
                                   {"d", "Drop"}};
 
 /**

@@ -24,7 +24,7 @@ typedef struct _Set Set;
  * @param n_ids the numbers of ids 
  * @return a new set, initialized
  */
-Set* set_create(Id *id, const int n_ids);
+Set* set_create();
 
 /**
  * @brief It destroys a set, freeing the allocated memory

@@ -23,7 +23,7 @@
  * @brief Number of supported commands (including NO_CMD and UNKNOWN)
  * @author Iker Díaz
  */
-#define N_CMD 9
+#define N_CMD 30
 
 /**
  * @brief Command token type selector
@@ -38,7 +38,8 @@ typedef enum {
  * @brief Supported command codes
  * @author Iker Díaz
  */
-typedef enum { NO_CMD = -1, UNKNOWN, EXIT, NEXT, BACK, TAKE, DROP, LEFT, RIGHT } CommandCode;
+typedef enum { NO_CMD = -1, UNKNOWN, EXIT, NEXT, BACK, DROP, LEFT, RIGHT, ATTACK, TAKE_SWORD, TAKE_CANDELABRA, 
+TAKE_TAPESTRY, TAKE_PARCHMENT } CommandCode;
 
 typedef struct _Command Command;
 

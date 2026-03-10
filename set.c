@@ -40,7 +40,7 @@ Set* set_create()
     }
     
     new_set->n_ids = 0;
-    for ( i ; i < new_set->n_ids; i++)
+    for ( ; i < new_set->n_ids; i++)
     {
         new_set->id[i] = NO_ID;
     }
@@ -117,7 +117,7 @@ Bool set_find_id(Set *set, Id id)
     
     }
 
-    for ( i; i < set->n_ids; i++)
+    for (; i < set->n_ids; i++)
     {
         if (set->id[i] == id)
         {
@@ -165,8 +165,9 @@ Id *set_get_ids(Set *set)
 {
     if (!(set))
     {
-        return NO_ID;
+        return NULL;
     }
     
     return set->id;
 }
+

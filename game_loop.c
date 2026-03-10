@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "command.h"
 #include "game.h"
@@ -50,7 +51,9 @@ int main(int argc, char *argv[]) {
   Game game;
   Graphic_engine *gengine;
   int result;
-  Command *last_cmd;
+  Command *last_cmd;  
+
+  srand(time(NULL));
 
   if (argc < 2) {
     fprintf(stderr, "Use: %s <game_data_file>\n", argv[0]);

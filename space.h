@@ -212,4 +212,5 @@ int space_get_n_objects(Space *space);
 
 Id *space_get_objects_ids(Space *space);
 
+Bool space_is_empty_of_objects(Space* space);
 #endif
