@@ -4,7 +4,7 @@
  * @file game.h
  * @author Iker Díaz
  * @version 0
- * @date 27-01-2025
+ * @date 16-03-2026
  * @copyright GNU Public License
  */
 
@@ -17,7 +17,6 @@
 #include "player.h"
 #include "space.h"
 #include "types.h"
-#include "game.h"
 
 /**
  * @brief Maximum number of spaces in the game
@@ -35,44 +34,60 @@
  * @brief Maximum number of characters in the game
  * @author Iker Díaz
  */
-#define MAX_CHARACTERS 100
+#define MAX_CHARACTERS 20
 
 /**
- * @brief Game data
+ * @brief Maximum length for informational messages shown by the interface
  * @author Iker Díaz
- *
- * This struct stores all entities and runtime state of the game.
  */
-typedef struct _Game {
-  Player* player;                         /*!< Game player */
-  Space* spaces[MAX_SPACES];              /*!< Space list */
-  int n_spaces;                           /*!< Number of loaded spaces */
-  Object* objects[MAX_OBJECTS];           /*!< Object list */
-  Id object_locations[MAX_OBJECTS];       /*!< Cached object locations */
-  int n_objects;                          /*!< Number of loaded objects */
-  Character* characters[MAX_CHARACTERS];  /*!< Character list */
-  int n_characters;                       /*!< Number of loaded characters */
-  Command* last_cmd;                      /*!< Last command introduced by the user */
-  Bool finished;                          /*!< Whether the game is finished */
-} Game;
+#define GAME_MESSAGE_SIZE 256
 
 /**
- * @brief It creates a new game, initializing its members
+ * @brief Default player id
+ * @author Iker Díaz
+ */
+#define PLAYER_ID 1
+
+/**
+ * @brief Default player health
+ * @author Iker Díaz
+ */
+#define PLAYER_INITIAL_HEALTH 5
+
+/**
+ * @brief Default player graphic description
+ * @author Iker Díaz
+ */
+#define PLAYER_INITIAL_GDESC "^C>"
+
+typedef struct _Game Game;
+
+/**
+ * @brief It creates a new game, allocating memory and initializing its members
  * @author Iker Díaz
  *
- * @param game a pointer to the game to initialize
- * @return OK if everything goes well, ERROR otherwise
+ * @return a new game initialized, or NULL on error
  */
-Status game_create(Game* game);
+Game* game_create(void);
 
 /**
  * @brief It destroys a game, freeing all allocated resources
  * @author Iker Díaz
  *
- * @param game a pointer to the game to destroy
+ * @param game a pointer to the game
  * @return OK if everything goes well, ERROR otherwise
  */
 Status game_destroy(Game* game);
+
+/**
+ * @brief It adds a space to the game
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ * @param space a pointer to the space to add
+ * @return OK if everything goes well, ERROR otherwise
+ */
+Status game_add_space(Game* game, Space* space);
 
 /**
  * @brief It returns a pointer to the space with the given id
@@ -83,6 +98,16 @@ Status game_destroy(Game* game);
  * @return a pointer to the space, or NULL if it does not exist
  */
 Space* game_get_space(Game* game, Id id);
+
+/**
+ * @brief It returns the id of the space at a given position
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ * @param position index in the space list
+ * @return the space id, or NO_ID if out of range
+ */
+Id game_get_space_id_at(Game* game, int position);
 
 /**
  * @brief It gets the player's current location
@@ -104,29 +129,6 @@ Id game_get_player_location(Game* game);
 Status game_set_player_location(Game* game, Id id);
 
 /**
- * @brief It gets the current location of the first loaded object
- * @author Iker Díaz
- *
- * If the player carries the first loaded object, its location is the player's location.
- *
- * @param game a pointer to the game
- * @return the id of the space where the object is, or NO_ID if not found
- */
-Id game_get_object_location(Game* game);
-
-/**
- * @brief It places the first loaded object in the given space
- * @author Iker Díaz
- *
- * This function removes the object from the player and from any space before placing it.
- *
- * @param game a pointer to the game
- * @param id the id of the space where the object will be placed
- * @return OK if everything goes well, ERROR otherwise
- */
-Status game_set_object_location(Game* game, Id id);
-
-/**
  * @brief It returns the game player
  * @author Iker Díaz
  *
@@ -134,15 +136,6 @@ Status game_set_object_location(Game* game, Id id);
  * @return a pointer to the player, or NULL on error
  */
 Player* game_get_player(Game* game);
-
-/**
- * @brief It returns the first loaded object
- * @author Iker Díaz
- *
- * @param game a pointer to the game
- * @return a pointer to the object, or NULL on error
- */
-Object* game_get_object(Game* game);
 
 /**
  * @brief It adds an object to the game
@@ -156,6 +149,15 @@ Object* game_get_object(Game* game);
 Status game_add_object(Game* game, Object* object, Id location_id);
 
 /**
+ * @brief It returns the first loaded object
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ * @return a pointer to the object, or NULL on error
+ */
+Object* game_get_object(Game* game);
+
+/**
  * @brief It gets an object from the game by id
  * @author Iker Díaz
  *
@@ -166,22 +168,41 @@ Status game_add_object(Game* game, Object* object, Id location_id);
 Object* game_get_object_by_id(Game* game, Id id);
 
 /**
+ * @brief It gets the current location of the first loaded object
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ * @return the id of the space where the object is, or NO_ID if it is carried or not found
+ */
+Id game_get_object_location(Game* game);
+
+/**
  * @brief It gets the current location of an object by id
  * @author Iker Díaz
  *
  * @param game a pointer to the game
  * @param object_id object id
- * @return the id of the space where the object is, or NO_ID on error
+ * @return the id of the space where the object is, or NO_ID if it is carried or on error
  */
 Id game_get_object_location_by_id(Game* game, Id object_id);
 
 /**
- * @brief It places an object in the given space
+ * @brief It sets the location of the first loaded object
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ * @param id the destination space id, or NO_ID if the player carries it
+ * @return OK if everything goes well, ERROR otherwise
+ */
+Status game_set_object_location(Game* game, Id id);
+
+/**
+ * @brief It sets the location of an object by id
  * @author Iker Díaz
  *
  * @param game a pointer to the game
  * @param object_id object id
- * @param id the id of the space where the object will be placed
+ * @param id the destination space id, or NO_ID if the player carries it
  * @return OK if everything goes well, ERROR otherwise
  */
 Status game_set_object_location_by_id(Game* game, Id object_id, Id id);
@@ -206,14 +227,15 @@ Id game_get_object_id_at(Game* game, int position);
 int game_get_n_objects(Game* game);
 
 /**
- * @brief It adds a character to the game
+ * @brief It adds a character to the game and places it in a space
  * @author Iker Díaz
  *
  * @param game a pointer to the game
  * @param character a pointer to the character to add
+ * @param location_id initial space id for the character
  * @return OK if everything goes well, ERROR otherwise
  */
-Status game_add_character(Game* game, Character* character);
+Status game_add_character(Game* game, Character* character, Id location_id);
 
 /**
  * @brief It gets a character from the game by id
@@ -224,6 +246,27 @@ Status game_add_character(Game* game, Character* character);
  * @return a pointer to the character, or NULL if it does not exist
  */
 Character* game_get_character(Game* game, Id id);
+
+/**
+ * @brief It gets the current location of a character by id
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ * @param character_id character id
+ * @return the id of the space where the character is, or NO_ID on error
+ */
+Id game_get_character_location(Game* game, Id character_id);
+
+/**
+ * @brief It sets the location of a character by id
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ * @param character_id character id
+ * @param location_id destination space id
+ * @return OK if everything goes well, ERROR otherwise
+ */
+Status game_set_character_location(Game* game, Id character_id, Id location_id);
 
 /**
  * @brief It returns the id of the character at a given position
@@ -254,7 +297,7 @@ int game_get_n_characters(Game* game);
 Command* game_get_last_command(Game* game);
 
 /**
- * @brief It sets the last command
+ * @brief It updates the stored last command
  * @author Iker Díaz
  *
  * @param game a pointer to the game
@@ -262,6 +305,53 @@ Command* game_get_last_command(Game* game);
  * @return OK if everything goes well, ERROR otherwise
  */
 Status game_set_last_command(Game* game, Command* command);
+
+/**
+ * @brief It gets whether the last executed command succeeded
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ * @return OK or ERROR depending on the last command result
+ */
+Status game_get_last_command_status(Game* game);
+
+/**
+ * @brief It sets whether the last executed command succeeded
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ * @param status command result status
+ * @return OK if everything goes well, ERROR otherwise
+ */
+Status game_set_last_command_status(Game* game, Status status);
+
+/**
+ * @brief It gets the informational message shown in the interface
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ * @return the stored message, or NULL on error
+ */
+const char* game_get_message(Game* game);
+
+/**
+ * @brief It sets the informational message shown in the interface
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ * @param message string to store
+ * @return OK if everything goes well, ERROR otherwise
+ */
+Status game_set_message(Game* game, const char* message);
+
+/**
+ * @brief It clears the informational message shown in the interface
+ * @author Iker Díaz
+ *
+ * @param game a pointer to the game
+ * @return OK if everything goes well, ERROR otherwise
+ */
+Status game_clear_message(Game* game);
 
 /**
  * @brief It gets whether the game is finished
@@ -283,31 +373,11 @@ Bool game_get_finished(Game* game);
 Status game_set_finished(Game* game, Bool finished);
 
 /**
- * @brief It prints the game information (for debugging)
+ * @brief It prints the game information for debugging
  * @author Iker Díaz
  *
  * @param game a pointer to the game
  */
 void game_print(Game* game);
-
-/**
- * @brief It returns the id of the space at a given position
- * @author Iker Díaz
- *
- * @param game a pointer to the game
- * @param position index in the space list
- * @return the space id, or NO_ID if out of range
- */
-Id game_get_space_id_at(Game* game, int position);
-
-/**
- * @brief It adds a space to the game
- * @author Iker Díaz
- *
- * @param game a pointer to the game
- * @param space a pointer to the space to add
- * @return OK if everything goes well, ERROR otherwise
- */
-Status game_add_space(Game* game, Space* space);
 
 #endif

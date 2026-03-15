@@ -1,24 +1,31 @@
-# Main path (6 spaces): Entrada -> Pasillo -> Comedor -> Cocina -> Patio interior -> Jardin
-# Branch from the 3rd space (3 spaces): Habitacion -> Bano -> Biblioteca
-# Branch from the 2nd space (dead end): Mazmorra
-# Space format: #s:<id>|<name>|<north>|<east>|<south>|<west>|<gdesc1>|<gdesc2>|<gdesc3>|<gdesc4>|<gdesc5>
-#s:11|Entrada|-1|-1|12|-1|_    !#|[_]--'---|!'!""`""!|! ! /^\ !|!_!_!I!_!
+# Space format:
+# #s:<id>|<name>|<north>|<east>|<south>|<west>|<gdesc1>|<gdesc2>|<gdesc3>|<gdesc4>|<gdesc5>
+# Object format:
+# #o:<id>|<name>|<initial_space_id>
+# Character format:
+# #c:<id>|<name>|<initial_space_id>|<gdesc>|<health>|<friendly>|<message>
+
+# Main path
+#s:11|Entrada|-1|-1|12|-1|_   !#   |[_]-'-[_]|!'!"`"!'!|!  /^\  !|!_!_I_!_!
 #s:12|Pasillo|11|-1|13|121|!-------!|! .   . !|! .   . !|! .   . !|!-------!
-#s:13|Comedor|12|131|14|-1|.-===-.|! . . !|! .'. !|()_____()|II_____II
-#s:14|Cocina|13|-1|15|-1|[=====]|! . . !|!  ^  !|! '_' !|[_____]
-#s:15|Patio interior|14|-1|16|-1|^^^ ^^^|! . . !|!  _  !|! |_| !|!_____!
-#s:16|Jardin|15|-1|-1|-1|{~~~~~}|{ . . }|{  ^  }|{ '_' }|{_____}
+#s:13|Comedor|12|131|14|-1|.-===-.  |! . . !  |! .'. !  |()_____()|II_____II
+#s:14|Cocina|13|-1|15|-1|[=====]  |! . . !  |!  ^  !  |! '_' !  |[_____]  
+#s:15|Patio interior|14|-1|16|-1|/\/\/\/\/|\ /\ /\ /|/ \/ \/ \|II II II |---------
+#s:16|Jardin|15|-1|-1|-1|{~~~~~}  |{ . . }  |{  ^  }  |{ '_' }  |{_____}  
 
-# Branch from space 13 (east direction)
-#s:131|Habitacion|-1|132|-1|13
-#s:132|Bano|-1|133|-1|131
-#s:133|Biblioteca|-1|-1|-1|132
+# Eastern branch
+#s:131|Habitacion|-1|132|-1|13| .-----. |! .-. . !|! ! ! ! !|!  ! !  !| '-----' 
+#s:132|Bano|-1|-1|-1|131| .-----. |! ~~~   !|! ___   !|!  ---  !| '-----' 
 
-# Dungeon from space 12 (west direction)
-#s:121|Mazmorra|-1|12|-1|-1
+# Dungeon branch
+#s:121|Mazmorra|-1|-1|-1|-1|#########|#  _ _  #|# ! X ! #|# !___! #|#########
 
-# Object format: #o:<id>|<name>|<initial_space_id>
+# Objects
 #o:21|Sword|11
 #o:22|Candelabra|12
 #o:23|Tapestry|13
 #o:24|Parchment|16
+
+# Characters
+#c:31|Butler|12|(o)|5|1|Welcome to the castle, knight.
+#c:32|Ghost|13|^M*|5|0|The dining hall belongs to the dead.

@@ -4,13 +4,14 @@
  * @file space.h
  * @author Iker Díaz
  * @version 0
- * @date 27-01-2025
+ * @date 16-03-2026
  * @copyright GNU Public License
  */
 
 #ifndef SPACE_H
 #define SPACE_H
 
+#include "set.h"
 #include "types.h"
 
 /**
@@ -41,7 +42,7 @@ Space* space_create(Id id);
  * @author Iker Díaz
  *
  * @param space a pointer to the space that must be destroyed
- * @return OK, if everything goes well or ERROR if there was some mistake
+ * @return OK if everything goes well, ERROR otherwise
  */
 Status space_destroy(Space* space);
 
@@ -50,7 +51,7 @@ Status space_destroy(Space* space);
  * @author Iker Díaz
  *
  * @param space a pointer to the space
- * @return the id of space
+ * @return the id of the space, or NO_ID on error
  */
 Id space_get_id(Space* space);
 
@@ -60,7 +61,7 @@ Id space_get_id(Space* space);
  *
  * @param space a pointer to the space
  * @param name a string with the name to store
- * @return OK, if everything goes well or ERROR if there was some mistake
+ * @return OK if everything goes well, ERROR otherwise
  */
 Status space_set_name(Space* space, char* name);
 
@@ -69,96 +70,93 @@ Status space_set_name(Space* space, char* name);
  * @author Iker Díaz
  *
  * @param space a pointer to the space
- * @return  a string with the name of the space
+ * @return a string with the name of the space, or NULL on error
  */
 const char* space_get_name(Space* space);
 
 /**
- * @brief It sets the id of the space located at the north
+ * @brief It sets the id of the space located to the north
  * @author Iker Díaz
  *
  * @param space a pointer to the space
- * @param id the id number of the space located at the north
- * @return OK, if everything goes well or ERROR if there was some mistake
+ * @param id the id number of the northern space
+ * @return OK if everything goes well, ERROR otherwise
  */
-
 Status space_set_north(Space* space, Id id);
 
 /**
- * @brief It gets the id of the space located at the north
+ * @brief It gets the id of the northern space
  * @author Iker Díaz
  *
  * @param space a pointer to the space
- * @return the id number of the space located at the north
+ * @return the id number of the northern space, or NO_ID on error
  */
 Id space_get_north(Space* space);
 
 /**
- * @brief It sets the id of the space located at the south
+ * @brief It sets the id of the space located to the south
  * @author Iker Díaz
  *
  * @param space a pointer to the space
- * @param id the id number of the space located at the south
- * @return OK, if everything goes well or ERROR if there was some mistake
+ * @param id the id number of the southern space
+ * @return OK if everything goes well, ERROR otherwise
  */
 Status space_set_south(Space* space, Id id);
 
 /**
- * @brief It gets the id of the space located at the south
+ * @brief It gets the id of the southern space
  * @author Iker Díaz
  *
  * @param space a pointer to the space
- * @return the id number of the space located at the south
+ * @return the id number of the southern space, or NO_ID on error
  */
 Id space_get_south(Space* space);
 
 /**
- * @brief It sets the id of the space located at the east
+ * @brief It sets the id of the space located to the east
  * @author Iker Díaz
  *
  * @param space a pointer to the space
- * @param id the id number of the space located at the east
- * @return OK, if everything goes well or ERROR if there was some mistake
+ * @param id the id number of the eastern space
+ * @return OK if everything goes well, ERROR otherwise
  */
 Status space_set_east(Space* space, Id id);
 
 /**
- * @brief It gets the id of the space located at the east
+ * @brief It gets the id of the eastern space
  * @author Iker Díaz
  *
  * @param space a pointer to the space
- * @return the id number of the space located at the east
+ * @return the id number of the eastern space, or NO_ID on error
  */
 Id space_get_east(Space* space);
 
 /**
- * @brief It sets the id of the space located at the west
+ * @brief It sets the id of the space located to the west
  * @author Iker Díaz
  *
  * @param space a pointer to the space
- * @param id the id number of the space located at the west
- * @return OK, if everything goes well or ERROR if there was some mistake
+ * @param id the id number of the western space
+ * @return OK if everything goes well, ERROR otherwise
  */
 Status space_set_west(Space* space, Id id);
 
 /**
- * @brief It gets the id of the space located at the west
+ * @brief It gets the id of the western space
  * @author Iker Díaz
  *
  * @param space a pointer to the space
- * @return the id number of the space located at the west
+ * @return the id number of the western space, or NO_ID on error
  */
 Id space_get_west(Space* space);
-
-
 
 /**
  * @brief It sets the id of the character in the space
  * @author Iker Díaz
  *
  * @param space a pointer to the space
- * @param character_id the id of the character in the space (or NO_ID if there is no character)
- * @return OK, if everything goes well or ERROR if there was some mistake
+ * @param character_id the id of the character, or NO_ID if there is no character
+ * @return OK if everything goes well, ERROR otherwise
  */
 Status space_set_character(Space* space, Id character_id);
 
@@ -167,7 +165,7 @@ Status space_set_character(Space* space, Id character_id);
  * @author Iker Díaz
  *
  * @param space a pointer to the space
- * @return the id of the character in the space (or NO_ID if there is no character)
+ * @return the character id, or NO_ID on error
  */
 Id space_get_character(Space* space);
 
@@ -178,7 +176,7 @@ Id space_get_character(Space* space);
  * @param space a pointer to the space
  * @param line line index in range [0, SPACE_GDESC_LINES - 1]
  * @param gdesc a string with the line contents
- * @return OK, if everything goes well or ERROR if there was some mistake
+ * @return OK if everything goes well, ERROR otherwise
  */
 Status space_set_gdesc(Space* space, int line, char* gdesc);
 
@@ -193,24 +191,69 @@ Status space_set_gdesc(Space* space, int line, char* gdesc);
 const char* space_get_gdesc(Space* space, int line);
 
 /**
+ * @brief It adds an object to the space
+ * @author Iker Díaz
+ *
+ * @param space a pointer to the space
+ * @param object_id the object id to add
+ * @return OK if everything goes well, ERROR otherwise
+ */
+Status space_add_object(Space* space, Id object_id);
+
+/**
+ * @brief It removes an object from the space
+ * @author Iker Díaz
+ *
+ * @param space a pointer to the space
+ * @param object_id the object id to remove
+ * @return OK if everything goes well, ERROR otherwise
+ */
+Status space_remove_object(Space* space, Id object_id);
+
+/**
+ * @brief It checks whether an object id exists in the space
+ * @author Iker Díaz
+ *
+ * @param space a pointer to the space
+ * @param object_id the object id to search
+ * @return TRUE if the object exists in the space, FALSE otherwise
+ */
+Bool space_has_object(Space* space, Id object_id);
+
+/**
+ * @brief It gets the number of objects in the space
+ * @author Iker Díaz
+ *
+ * @param space a pointer to the space
+ * @return number of objects, or -1 on error
+ */
+int space_get_n_objects(Space* space);
+
+/**
+ * @brief It gets the array with the ids of the objects in the space
+ * @author Iker Díaz
+ *
+ * @param space a pointer to the space
+ * @return the id array, or NULL on error
+ */
+Id* space_get_objects_ids(Space* space);
+
+/**
+ * @brief It checks if the space has no objects
+ * @author Iker Díaz
+ *
+ * @param space a pointer to the space
+ * @return TRUE if the space has no objects, FALSE otherwise
+ */
+Bool space_is_empty_of_objects(Space* space);
+
+/**
  * @brief It prints the space information
  * @author Iker Díaz
  *
- * This function shows ids and names, links, object, character and graphical description lines.
  * @param space a pointer to the space
- * @return OK, if everything goes well or ERROR if there was some mistake
+ * @return OK if everything goes well, ERROR otherwise
  */
 Status space_print(Space* space);
 
-Status space_set_object(Space *space, Id object_Id);
-
-Status space_del_object(Space *space, Id id);
-
-Bool space_find_object_id(Space *space, Id object_id);
-
-int space_get_n_objects(Space *space);
-
-Id *space_get_objects_ids(Space *space);
-
-Bool space_is_empty_of_objects(Space* space);
 #endif

@@ -2,9 +2,9 @@
  * @brief It defines the textual graphic engine interface
  *
  * @file graphic_engine.h
- * @author Profesores PPROG
+ * @author Iker Díaz
  * @version 0
- * @date 27-01-2025
+ * @date 16-03-2026
  * @copyright GNU Public License
  */
 
@@ -17,15 +17,15 @@ typedef struct _Graphic_engine Graphic_engine;
 
 /**
  * @brief It creates a new graphic engine
- * @author Profesores PPROG
+ * @author Iker Díaz
  *
  * @return a pointer to a new graphic engine, or NULL on error
  */
-Graphic_engine* graphic_engine_create();
+Graphic_engine* graphic_engine_create(void);
 
 /**
  * @brief It destroys a graphic engine
- * @author Profesores PPROG
+ * @author Iker Díaz
  *
  * @param ge a pointer to the graphic engine
  */

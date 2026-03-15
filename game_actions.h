@@ -4,7 +4,7 @@
  * @file game_actions.h
  * @author Iker Díaz
  * @version 0
- * @date 27-01-2025
+ * @date 16-03-2026
  * @copyright GNU Public License
  */
 
@@ -21,7 +21,7 @@
  *
  * @param game a pointer to the game
  * @param cmd a pointer to the command
- * @return OK if everything goes well, ERROR otherwise
+ * @return OK if the command succeeds, ERROR otherwise
  */
 Status game_actions_update(Game* game, Command* cmd);
 
